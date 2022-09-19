@@ -1,5 +1,5 @@
 [bootstrap]
-main_collection = /main/main.collectionc
+main_collection = /main/control_test.collectionc
 
 [script]
 shared_state = 1
@@ -13,4 +13,5 @@ input_method = HiddenInputField
 
 [project]
 title = DefoldJam22
+dependencies#0 = https://github.com/defold/extension-rive/archive/main.zip
 
