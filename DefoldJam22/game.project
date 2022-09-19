@@ -1,5 +1,6 @@
 [bootstrap]
 main_collection = /main/control_test.collectionc
+render = /defold-rive/lua/rive.renderc
 
 [script]
 shared_state = 1
