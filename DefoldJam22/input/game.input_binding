@@ -40,7 +40,7 @@ gamepad_trigger {
 }
 gamepad_trigger {
   input: GAMEPAD_RPAD_DOWN
-  action: "a"
+  action: "jump"
 }
 gamepad_trigger {
   input: GAMEPAD_RPAD_RIGHT
