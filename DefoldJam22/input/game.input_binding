@@ -1,4 +1,48 @@
-mouse_trigger {
-  input: MOUSE_BUTTON_1
-  action: "touch"
+gamepad_trigger {
+  input: GAMEPAD_LSTICK_RIGHT
+  action: "right"
+}
+gamepad_trigger {
+  input: GAMEPAD_LSTICK_LEFT
+  action: "left"
+}
+gamepad_trigger {
+  input: GAMEPAD_LSTICK_DOWN
+  action: "down"
+}
+gamepad_trigger {
+  input: GAMEPAD_LSTICK_UP
+  action: "up"
+}
+gamepad_trigger {
+  input: GAMEPAD_RTRIGGER
+  action: "rt"
+}
+gamepad_trigger {
+  input: GAMEPAD_LTRIGGER
+  action: "lt"
+}
+gamepad_trigger {
+  input: GAMEPAD_LSHOULDER
+  action: "lb"
+}
+gamepad_trigger {
+  input: GAMEPAD_RSHOULDER
+  action: "rb"
+}
+gamepad_trigger {
+  input: GAMEPAD_RPAD_UP
+  action: "y"
+}
+gamepad_trigger {
+  input: GAMEPAD_RPAD_LEFT
+  action: "x"
+}
+gamepad_trigger {
+  input: GAMEPAD_RPAD_DOWN
+  action: "a"
+}
+gamepad_trigger {
+  input: GAMEPAD_RPAD_RIGHT
+  action: "b"
 }
