@@ -8,17 +8,25 @@ function init(self)
 	self.moving = false
 	self.speed = 5
 	self.facingRight = true
-	self.grounded = true
+	self.gridCoords = vmath.vector3(5,5,0)
+	self.movingTo = vmath.vector3()
+end
+
+local function grid_to_real(vector3)
+	return vmath.vector3(vector3.x*CELL_SIDE,vector3.y*CELL_SIDE,0)
+end
+
+local function is_grounded()
+	-- will contain all verifications needed in the future
+	local bool = true
+	if go.get_position().y > 50 then bool = false end
+	return bool
 end
 
 function final(self)
 	-- Add finalization code here
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
-end
-
-function update(self, dt)
-	
 end
 
 function fixed_update(self, dt)
@@ -28,24 +36,34 @@ function fixed_update(self, dt)
 end
 
 local function move_finished(self)
+	self.gridCoords = self.movingTo
 	self.overrideProtection = false
 	if self.buffer == nil then
 		self.moving = false
 	else
-		go.animate(".", "position", go.PLAYBACK_ONCE_FORWARD, self.buffer, go.EASING_LINEAR, 0.1,0,move_finished)
+		go.animate(".", "position", go.PLAYBACK_ONCE_FORWARD, grid_to_real(self.buffer), go.EASING_LINEAR, 0.1,0,move_finished)
 	end
 	
 end
 
 local function call_move(self,target)
+	if is_grounded() == false then
+		target.y = target.y - 1
+	end
+	self.movingTo = target
 	if self.moving then
 		self.buffer = target
-		go.set_position(target,go.get_id("/visual_buffer"))
+		go.set_position(grid_to_real(target),go.get_id("/visual_buffer"))
 	else
 		self.moving = true
 		self.buffer = nil
-		go.animate(".", "position", go.PLAYBACK_ONCE_FORWARD, target, go.EASING_LINEAR, 0.1,0,move_finished)
+		go.animate(".", "position", go.PLAYBACK_ONCE_FORWARD, grid_to_real(target), go.EASING_LINEAR, 0.1,0,move_finished)
 	end
+end
+
+
+function update(self, dt)
+
 end
 
 function on_message(self, message_id, message, sender)
@@ -61,22 +79,25 @@ function on_input(self, action_id, action)
 		print(action_id)
 		if action_id == hash("left") then
 			self.overrideProtection = false
-			local target = vmath.vector3(pPos.x - CELL_SIDE,pPos.y,0)
+			local target = self.gridCoords
+			target.x = target.x - 1
 			call_move(self, target)
 			self.facingRight = false
 		elseif action_id == hash("right") then
 			self.overrideProtection = false
-			local target = vmath.vector3(pPos.x + CELL_SIDE,pPos.y,0)
-			call_move(self, target)
+			local target = self.gridCoords
+			target.x = target.x + 1
 			self.facingRight = true
 		end
 	end
 	
-	if action_id == hash("jump") and self.grounded then
+	if action_id == hash("jump") and is_grounded() then
 		self.overrideProtection = true
-		local target = vmath.vector3(pPos.x - CELL_SIDE,pPos.y+CELL_SIDE*2,0)
+		local target = self.gridCoords
+		target.y = target.y + 3
+		target.x = target.x - 1
 		if self.facingRight then
-			target.x = pPos.x + CELL_SIDE
+			target.x = pPos.x + 1
 		end
 		call_move(self, target)
 	end
