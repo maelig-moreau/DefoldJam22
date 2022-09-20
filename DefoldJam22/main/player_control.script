@@ -65,7 +65,7 @@ local function move_fairy(self,target)
 			go.set_position(convertedPos,go.get_id("/anticipator"))
 			break
 		end
-		if i < -100 then print("not found") break end
+		if i < -100 then break end
 	end
 end
 
@@ -78,7 +78,6 @@ function update(self, dt)
 			pos.y = FAKE_FLOOR
 			go.set_position(pos)
 			self.momentum.y = 0
-			print(self.currentAnim)
 			if self.currentAnim ~= "run" then
 				rive.play_anim("#rivemodel", "run", go.PLAYBACK_LOOP_FORWARD)
 				self.currentAnim = "run"
@@ -113,7 +112,6 @@ function on_input(self, action_id, action)
 	if (action.pressed or self.overrideProtection == false) then
 		if action_id == hash("left") then
 			self.overrideProtection = false
-			--local target = vmath.vector3(pPos.x-CELL_SIDE,pPos.y,0)
 			local gridPos = real_to_grid(go.get_position())
 			local target = vmath.vector3(gridPos.x-self.gridSpeed,gridPos.y,0)
 			self.controlMomentum.y = - self.gridSpeed
@@ -126,7 +124,6 @@ function on_input(self, action_id, action)
 			self.controlMomentum.x = self.gridSpeed
 			move_fairy(self, target)
 			self.facingRight = true
-			
 		end
 	end
 	
@@ -135,9 +132,11 @@ function on_input(self, action_id, action)
 		local gridPos = real_to_grid(go.get_position())
 		local target = vmath.vector3(gridPos.x - self.gridSpeed,gridPos.y+3,0)
 		self.controlMomentum.y = 3
-		self.controlMomentum.x = -self.gridSpeed
-		if self.facingRight then target.x = gridPos.x + self.gridSpeed
-			self.controlMomentum.x = self.gridSpeed end
+		self.controlMomentum.x = - self.gridSpeed
+		if self.facingRight then 
+			target.x = gridPos.x + self.gridSpeed
+			self.controlMomentum.x = self.gridSpeed
+		end
 			move_fairy(self, target)
 	elseif action_id == hash("sprint") then
 		if is_grounded(self) and action.released == false then
