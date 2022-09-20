@@ -21,14 +21,14 @@ embedded_instances {
   "  id: \"rivemodel\"\n"
   "  type: \"rivemodel\"\n"
   "  data: \"scene: \\\"/main/player_character.rivescene\\\"\\n"
-  "default_animation: \\\"\\\"\\n"
+  "default_animation: \\\"idle\\\"\\n"
   "material: \\\"/defold-rive/assets/rivemodel.material\\\"\\n"
   "blend_mode: BLEND_MODE_ALPHA\\n"
   "default_state_machine: \\\"\\\"\\n"
   "\"\n"
   "  position {\n"
-  "    x: -38.0\n"
-  "    y: 170.0\n"
+  "    x: 112.0\n"
+  "    y: 190.0\n"
   "    z: 0.0\n"
   "  }\n"
   "  rotation {\n"
@@ -40,8 +40,8 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: -198.0
-    y: 109.0
+    x: 0.0
+    y: 0.0
     z: 0.0
   }
   rotation {
@@ -67,8 +67,48 @@ embedded_instances {
   "blend_mode: BLEND_MODE_ALPHA\\n"
   "\"\n"
   "  position {\n"
-  "    x: 12.5\n"
-  "    y: 12.5\n"
+  "    x: 25.0\n"
+  "    y: 25.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "anticipator"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/builtins/graphics/particle_blob.tilesource\\\"\\n"
+  "default_animation: \\\"anim\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 25.0\n"
+  "    y: 25.0\n"
   "    z: 0.0\n"
   "  }\n"
   "  rotation {\n"

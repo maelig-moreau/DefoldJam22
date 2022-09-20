@@ -36,7 +36,7 @@ gamepad_trigger {
 }
 gamepad_trigger {
   input: GAMEPAD_RPAD_LEFT
-  action: "x"
+  action: "sprint"
 }
 gamepad_trigger {
   input: GAMEPAD_RPAD_DOWN
