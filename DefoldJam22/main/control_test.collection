@@ -16,6 +16,8 @@ embedded_instances {
   "    z: 0.0\n"
   "    w: 1.0\n"
   "  }\n"
+  "  property_decls {\n"
+  "  }\n"
   "}\n"
   "embedded_components {\n"
   "  id: \"rivemodel\"\n"
@@ -27,8 +29,8 @@ embedded_instances {
   "default_state_machine: \\\"\\\"\\n"
   "\"\n"
   "  position {\n"
-  "    x: 112.0\n"
-  "    y: 190.0\n"
+  "    x: 10.0\n"
+  "    y: 350.0\n"
   "    z: 0.0\n"
   "  }\n"
   "  rotation {\n"
@@ -51,8 +53,8 @@ embedded_instances {
     w: 1.0
   }
   scale3 {
-    x: 0.2
-    y: 0.2
+    x: 0.3
+    y: 0.3
     z: 1.0
   }
 }
@@ -133,6 +135,43 @@ embedded_instances {
   scale3 {
     x: 1.0
     y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "terrain"
+  data: "components {\n"
+  "  id: \"test_room\"\n"
+  "  component: \"/main/test_room.tilemap\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "  property_decls {\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 2.0
+    y: 2.0
     z: 1.0
   }
 }
