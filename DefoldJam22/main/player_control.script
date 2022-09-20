@@ -1,6 +1,6 @@
 go.property("speed", 4)
-go.property("gridSpeedSprint", 4)
-go.property("gridSpeedWalk", 2)
+go.property("gridSpeedSprint", 2)
+go.property("gridSpeedWalk", 1)
 
 local function grid_to_real(vector3)
 	local newvect = vmath.vector3(0,0,0)
@@ -20,6 +20,7 @@ end
 function init(self)
 	CELL_SIDE = 25
 	FAKE_FLOOR = 200 -- testing variable
+	DEADZONE_SIZE = 0.6 --ranging from 0 to 1
 	msg.post(".","acquire_input_focus")
 	self.fairy = nil
 	self.currentMovement = vmath.vector3(0,0,0)
@@ -110,14 +111,14 @@ end
 function on_input(self, action_id, action)
 	local pPos = go.get_position()
 	if (action.pressed or self.overrideProtection == false) then
-		if action_id == hash("left") then
+		if action_id == hash("left") and action.value > DEADZONE_SIZE then
 			self.overrideProtection = false
 			local gridPos = real_to_grid(go.get_position())
 			local target = vmath.vector3(gridPos.x-self.gridSpeed,gridPos.y,0)
 			self.controlMomentum.y = - self.gridSpeed
 			move_fairy(self, target)
 			self.facingRight = false
-		elseif action_id == hash("right") then
+		elseif action_id == hash("right") and action.value > DEADZONE_SIZE then
 			self.overrideProtection = false
 			local gridPos = real_to_grid(go.get_position())
 			local target = vmath.vector3(gridPos.x+self.gridSpeed,gridPos.y,0)
