@@ -16,7 +16,7 @@ gamepad_trigger {
 }
 gamepad_trigger {
   input: GAMEPAD_RTRIGGER
-  action: "rt"
+  action: "sprint"
 }
 gamepad_trigger {
   input: GAMEPAD_LTRIGGER
@@ -32,7 +32,7 @@ gamepad_trigger {
 }
 gamepad_trigger {
   input: GAMEPAD_RPAD_UP
-  action: "y"
+  action: "jump"
 }
 gamepad_trigger {
   input: GAMEPAD_RPAD_LEFT
