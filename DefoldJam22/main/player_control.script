@@ -1,6 +1,5 @@
-go.property("speed", 4)
-go.property("gridSpeedSprint", 4)
-go.property("gridSpeedWalk", 2)
+go.property("speedSprint", 8)
+go.property("speedWalk", 4)
 
 local function grid_to_real(vector3)
 	local newvect = vmath.vector3(0,0,0)
@@ -11,21 +10,22 @@ end
 
 local function real_to_grid(vector3)
 	local newvect = vmath.vector3(0,0,0)
-	newvect.x = math.ceil(vector3.x / CELL_SIDE)
-	newvect.y = math.ceil(vector3.y / CELL_SIDE)
+	newvect.x = math.floor(vector3.x / CELL_SIDE)
+	newvect.y = math.floor(vector3.y / CELL_SIDE)
 	return newvect
 end
 
-
 function init(self)
+	curentLevel = go.get_id("/terrain")
 	CELL_SIDE = 50
 	FAKE_FLOOR = 200 -- testing variable
 	msg.post(".","acquire_input_focus")
 	self.fairy = nil
+	self.speed = self.speedWalk
 	self.currentMovement = vmath.vector3(0,0,0)
 	self.moving = false
 	self.facingRight = true
-	self.gridCoords = vmath.vector3(5,5,0)
+	self.gridCoords = vmath.vector3(8,8,0)
 	go.set_position(grid_to_real(self.gridCoords))
 	self.momentum = vmath.vector3() -- momentum represents forces, NOT the fairy
 	self.controlMomentum = vmath.vector3()
@@ -34,11 +34,38 @@ function init(self)
 	self.currentAnim = "idle"
 end
 
-local function is_grounded(self)
-	-- will contain all verifications needed in the future
+local function is_grounded(vector3) -- checks if position has tile under
 	local bool = true
-	if go.get_position().y > FAKE_FLOOR then bool = false end
+	local tile = tilemap.get_tile("/terrain#test_room", "collision", vector3.x, vector3.y)
+	if tile == 0 then
+		tilemap.set_tile("/terrain#test_room", "debug", vector3.x, vector3.y,3)
+		bool = false
+	elseif tile == nil then
+		bool = nil
+	end
 	return bool
+end
+
+local function is_walled(position, height) -- defaults on player
+	if height == nil then height = 2 end
+	if position == nil then position = real_to_grid(go.get_position()) end
+	local blocked = {top=false,right=false,left=false}
+	local tile = nil
+	for i=1,height,1 do
+		if tilemap.get_tile("/terrain#test_room", "collision", position.x+1, position.y+i) ~= 0 then
+			blocked.right = true
+			print(position.x+1, position.y+i)
+		end
+		if tilemap.get_tile("/terrain#test_room", "collision", position.x-1, position.y+i) ~= 0 then
+			blocked.left = true
+			print(position.x-1, position.y+i)
+		end
+	end
+	if tilemap.get_tile("/terrain#test_room", "collision", position.x, position.y+height) ~= 0 then
+		blocked.top = true
+	end
+	pprint(os.time())
+	return blocked
 end
 
 local function move_finished(self)
@@ -53,16 +80,20 @@ local function move_fairy(self,target)
 	-- it is visually represented in the game space and is used to
 	-- connect movements to each other
 	self.fairy = target
-	go.set_position(grid_to_real(target),go.get_id("/visual_buffer"))
+	local pos = real_to_grid(go.get_position())
+	if is_walled(nil, nil).left and self.fairy.x < pos.x then self.fairy.x = pos.x end
+	if is_walled(nil, nil).right and self.fairy.x > pos.x then self.fairy.x = pos.x end
 	local i = 1
 	local foundGround = false
 	local pos = self.fairy + self.momentum + self.controlMomentum
 	while foundGround == false do
 		i = i - 1
 		local newpos = vmath.vector3(pos.x,pos.y+i,0)
-		local convertedPos = grid_to_real(newpos)
-		if convertedPos.y <= 200 then
-			go.set_position(convertedPos,go.get_id("/anticipator"))
+		local grounded = is_grounded(newpos)
+		if grounded == nil then
+			break
+		elseif grounded then
+			go.set_position(grid_to_real(newpos),go.get_id("/anticipator"))
 			break
 		end
 		if i < -100 then break end
@@ -70,13 +101,11 @@ local function move_fairy(self,target)
 end
 
 function update(self, dt)
+	if is_grounded(real_to_grid(go.get_position())) then self.momentum.y = 0 end
 	if self.moving == false then
-		if is_grounded(self) == false then
+		if is_grounded(real_to_grid(go.get_position())) == false then
 			self.momentum.y = self.momentum.y - 1
 		else
-			local pos = go.get_position()
-			pos.y = FAKE_FLOOR
-			go.set_position(pos)
 			self.momentum.y = 0
 			if self.currentAnim ~= "run" then
 				rive.play_anim("#rivemodel", "run", go.PLAYBACK_LOOP_FORWARD)
@@ -85,7 +114,7 @@ function update(self, dt)
 			if self.facingRight then go.set(".","euler.y",180) else go.set(".","euler.y",0) end
 		end
 		local move = vmath.vector3()
-		
+
 		if self.fairy == nil then
 			move = real_to_grid(go.get_position()) + self.momentum
 			rive.play_anim("#rivemodel", "idle", go.PLAYBACK_ONCE_FORWARD)
@@ -98,13 +127,18 @@ function update(self, dt)
 			rive.play_anim("#rivemodel", "jump", go.PLAYBACK_ONCE_BACKWARD)
 			self.currentAnim = "jump"
 		end
-		go.animate(".", "position", go.PLAYBACK_ONCE_FORWARD, grid_to_real(move), go.EASING_LINEAR, 1/self.speed,0,move_finished)
-		self.moving = true
+		if is_grounded(real_to_grid(go.get_position())) == false or self.fairy ~= nil then
+			if tilemap.get_tile("/terrain#test_room", "collision", move.x, move.y+1) ~= 0 then 
+				move.y = move.y + 1
+			end
+			go.animate(".", "position", go.PLAYBACK_ONCE_FORWARD, grid_to_real(move), go.EASING_LINEAR, 1/self.speed,0,move_finished)
+			self.moving = true
+		end
 	end
 end
 
 function on_message(self, message_id, message, sender)
-	
+
 end
 
 function on_input(self, action_id, action)
@@ -126,8 +160,8 @@ function on_input(self, action_id, action)
 			self.facingRight = true
 		end
 	end
-	
-	if action_id == hash("jump") and is_grounded(self) then
+
+	if action_id == hash("jump") and is_grounded(real_to_grid(go.get_position())) then
 		self.overrideProtection = true
 		local gridPos = real_to_grid(go.get_position())
 		local target = vmath.vector3(gridPos.x - self.gridSpeed,gridPos.y+3,0)
@@ -137,12 +171,12 @@ function on_input(self, action_id, action)
 			target.x = gridPos.x + self.gridSpeed
 			self.controlMomentum.x = self.gridSpeed
 		end
-			move_fairy(self, target)
+		move_fairy(self, target)
 	elseif action_id == hash("sprint") then
-		if is_grounded(self) and action.released == false then
-			self.gridSpeed = self.gridSpeedSprint
+		if is_grounded(real_to_grid(go.get_position())) and action.released == false then
+			self.speed = self.speedSprint
 		elseif action.released then
-			self.gridSpeed = self.gridSpeedWalk
+			self.speed = self.speedWalk
 		end
 	end
 end
