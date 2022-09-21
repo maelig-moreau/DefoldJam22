@@ -1,5 +1,6 @@
 go.property("speed", 4)
-go.property("gridSpeedSprint", 2)
+go.property("airSpeed", 2)
+go.property("gridSpeedSprint", 1)
 go.property("gridSpeedWalk", 1)
 
 local function grid_to_real(vector3)
@@ -29,8 +30,11 @@ function init(self)
 	self.gridCoords = vmath.vector3(5,5,0)
 	go.set_position(grid_to_real(self.gridCoords))
 	self.momentum = vmath.vector3() -- momentum represents forces, NOT the fairy
-	self.controlMomentum = vmath.vector3()
+	self.controlMomentum = vmath.vector3() --Cette valeure est a NIL de manière purement et simplement permanente
 	self.gridSpeed = 1
+	self.sprinting = false --a state to check for deciding momentum
+	self.lilHoping = false
+	self.runHoping = false
 	rive.play_anim("#rivemodel", "idle", go.PLAYBACK_ONCE_BACKWARD)
 	self.currentAnim = "idle"
 end
@@ -71,19 +75,57 @@ local function move_fairy(self,target)
 end
 
 function update(self, dt)
+	--local gridPos = real_to_grid(go.get_position())
+	--print(gridPos)
+	--print(is_grounded(self))
+	--print(self.momentum)
+	--print(controlMomentum)
+	--print(self.lilHoping)
+	--print(self.facingRight)
+	--print(self.moving)
+	print(self.fairy)
 	if self.moving == false then
 		if is_grounded(self) == false then
 			self.momentum.y = self.momentum.y - 1
+			self.momentum.x = 0 --LETS FUCKING GOOOOOO (ça tombe comme une enclume après le petit momentum boost)
+			if self.facingRight == true then
+				if self.lilHoping == true then
+					self.momentum.x = self.momentum.x + 1
+					self.lilHoping = false
+				elseif self.runHoping == true then
+					self.momentum.x = self.momentum.x + 2
+					self.runHoping = false
+				end
+			elseif self.facingRight == false then
+				if self.lilHoping == true then
+					self.momentum.x = self.momentum.x-1
+					self.lilHoping = false
+				elseif self.runHoping == true then
+					self.momentum.x = self.momentum.x-2
+					self.runHoping = false
+				end
+			end
 		else
 			local pos = go.get_position()
 			pos.y = FAKE_FLOOR
 			go.set_position(pos)
 			self.momentum.y = 0
+			self.momentum.x = 0
 			if self.currentAnim ~= "run" then
 				rive.play_anim("#rivemodel", "run", go.PLAYBACK_LOOP_FORWARD)
 				self.currentAnim = "run"
 			end
-			if self.facingRight then go.set(".","euler.y",180) else go.set(".","euler.y",0) end
+			if self.facingRight == true then 
+				go.set(".","euler.y",180) 
+				if self.sprinting == true then
+					self.momentum.x = self.momentum.x+1
+				end
+			else
+				go.set(".","euler.y",0) 
+				if self.sprinting == true then
+					self.momentum.x = self.momentum.x-1
+				end
+			end
 		end
 		local move = vmath.vector3()
 		
@@ -99,8 +141,10 @@ function update(self, dt)
 			rive.play_anim("#rivemodel", "jump", go.PLAYBACK_ONCE_BACKWARD)
 			self.currentAnim = "jump"
 		end
-		go.animate(".", "position", go.PLAYBACK_ONCE_FORWARD, grid_to_real(move), go.EASING_LINEAR, 1/self.speed,0,move_finished)
-		self.moving = true
+		if is_grounded(real_to_grid(go.get_position())) == false or self.fairy ~= nil then
+			go.animate(".", "position", go.PLAYBACK_ONCE_FORWARD, grid_to_real(move), go.EASING_LINEAR, 1/self.speed*2,0,move_finished)
+			self.moving = true
+		end
 	end
 end
 
@@ -110,13 +154,16 @@ end
 
 function on_input(self, action_id, action)
 	local pPos = go.get_position()
-	if (action.pressed or self.overrideProtection == false) then
+	if (action.pressed or self.overrideProtection == false) and is_grounded(self) then
 		if action_id == hash("left") and action.value > DEADZONE_SIZE then
 			self.overrideProtection = false
 			local gridPos = real_to_grid(go.get_position())
 			local target = vmath.vector3(gridPos.x-self.gridSpeed,gridPos.y,0)
 			self.controlMomentum.y = - self.gridSpeed
 			move_fairy(self, target)
+			--if self.gridSpeed == 2 then --tentative d'imposer un élan avant le grand saut
+			--	self.sprinting = true
+			--end
 			self.facingRight = false
 		elseif action_id == hash("right") and action.value > DEADZONE_SIZE then
 			self.overrideProtection = false
@@ -124,6 +171,9 @@ function on_input(self, action_id, action)
 			local target = vmath.vector3(gridPos.x+self.gridSpeed,gridPos.y,0)
 			self.controlMomentum.x = self.gridSpeed
 			move_fairy(self, target)
+			--if self.gridSpeed == 2 then --tentative d'imposer un élan avant le grand saut
+			--	self.sprinting = true --probleme : on peut sauter sans élan en bougeant seulement la fairy
+			--end
 			self.facingRight = true
 		end
 	end
@@ -131,19 +181,37 @@ function on_input(self, action_id, action)
 	if action_id == hash("jump") and is_grounded(self) then
 		self.overrideProtection = true
 		local gridPos = real_to_grid(go.get_position())
-		local target = vmath.vector3(gridPos.x - self.gridSpeed,gridPos.y+3,0)
-		self.controlMomentum.y = 3
-		self.controlMomentum.x = - self.gridSpeed
+		local target = vmath.vector3()
+		--local target = vmath.vector3(gridPos.x - self.gridSpeed,gridPos.y+1,0)
+		if self.sprinting == false then
+			self.lilHoping = true
+		else
+			self.runHoping = true
+		end
+		target.x = gridPos.x -2
+		target.y = gridPos.y +1
+		--self.controlMomentum.y = 1 --useless for now ?
+		--self.controlMomentum.x = - self.gridSpeed --useless for now ?
 		if self.facingRight then 
-			target.x = gridPos.x + self.gridSpeed
-			self.controlMomentum.x = self.gridSpeed
+			--target.x = gridPos.x + self.gridSpeed
+			--self.controlMomentum.x = self.gridSpeed
+			if self.sprinting == false then
+				self.lilHoping = true
+			else
+				self.runHoping = true
+			end
+			target.x = gridPos.x +2
+			target.y = gridPos.y +1
 		end
 			move_fairy(self, target)
-	elseif action_id == hash("sprint") then
-		if is_grounded(self) and action.released == false then
+		elseif action_id == hash("sprint") then
+			if is_grounded(self) == true and action.value == 1 then --causes stick to cancel sprinting
+			--if action.value == 1 then
 			self.gridSpeed = self.gridSpeedSprint
-		elseif action.released then
+			self.sprinting = true
+			else --if is_grounded(self) then --try ?
 			self.gridSpeed = self.gridSpeedWalk
+			self.sprinting = false
 		end
 	end
 end

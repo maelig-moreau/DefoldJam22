@@ -1,3 +1,11 @@
+key_trigger {
+  input: KEY_E
+  action: "right"
+}
+key_trigger {
+  input: KEY_A
+  action: "left"
+}
 gamepad_trigger {
   input: GAMEPAD_LSTICK_RIGHT
   action: "right"
