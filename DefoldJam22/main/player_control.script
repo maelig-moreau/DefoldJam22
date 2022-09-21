@@ -24,6 +24,7 @@ function init(self)
 	self.speed = self.speedWalk
 	self.currentMovement = vmath.vector3(0,0,0)
 	self.moving = false
+	self.shooting = false
 	self.facingRight = true
 	self.gridCoords = vmath.vector3(8,8,0)
 	go.set_position(grid_to_real(self.gridCoords))
@@ -38,7 +39,6 @@ local function is_grounded(vector3) -- checks if position has tile under
 	local bool = true
 	local tile = tilemap.get_tile("/terrain#test_room", "collision", vector3.x, vector3.y)
 	if tile == 0 then
-		tilemap.set_tile("/terrain#test_room", "debug", vector3.x, vector3.y,3)
 		bool = false
 	elseif tile == nil then
 		bool = nil
@@ -54,17 +54,14 @@ local function is_walled(position, height) -- defaults on player
 	for i=1,height,1 do
 		if tilemap.get_tile("/terrain#test_room", "collision", position.x+1, position.y+i) ~= 0 then
 			blocked.right = true
-			print(position.x+1, position.y+i)
 		end
 		if tilemap.get_tile("/terrain#test_room", "collision", position.x-1, position.y+i) ~= 0 then
 			blocked.left = true
-			print(position.x-1, position.y+i)
 		end
 	end
 	if tilemap.get_tile("/terrain#test_room", "collision", position.x, position.y+height) ~= 0 then
 		blocked.top = true
 	end
-	pprint(os.time())
 	return blocked
 end
 
@@ -101,13 +98,15 @@ local function move_fairy(self,target)
 end
 
 function update(self, dt)
-	if is_grounded(real_to_grid(go.get_position())) then self.momentum.y = 0 end
+	local pPos = real_to_grid(go.get_position())
+	local grounded = is_grounded(pPos)
+	if grounded then self.momentum.y = 0 end
 	if self.moving == false then
-		if is_grounded(real_to_grid(go.get_position())) == false then
+		if grounded == false then
 			self.momentum.y = self.momentum.y - 1
 		else
 			self.momentum.y = 0
-			if self.currentAnim ~= "run" then
+			if self.currentAnim ~= "run" and self.shooting == false then
 				rive.play_anim("#rivemodel", "run", go.PLAYBACK_LOOP_FORWARD)
 				self.currentAnim = "run"
 			end
@@ -115,13 +114,12 @@ function update(self, dt)
 		end
 		local move = vmath.vector3()
 
-		if self.fairy == nil then
-			move = real_to_grid(go.get_position()) + self.momentum
+		if self.fairy == nil and (self.shooting == false or grounded == false) then
+			move = pPos + self.momentum
 			rive.play_anim("#rivemodel", "idle", go.PLAYBACK_ONCE_FORWARD)
 			self.currentAnim = "idle"
-		else
+		elseif self.fairy ~= nil then
 			move = self.fairy + self.momentum
-			--go.set("#rivemodel", "running", true)
 		end
 		if move.y > real_to_grid(go.get_position()).y then
 			rive.play_anim("#rivemodel", "jump", go.PLAYBACK_ONCE_BACKWARD)
@@ -177,6 +175,19 @@ function on_input(self, action_id, action)
 			self.speed = self.speedSprint
 		elseif action.released then
 			self.speed = self.speedWalk
+		end
+	elseif action_id == hash("shoot") then
+		if action.value > 0.3 then
+			self.shooting = true
+		else
+			self.shooting = false
+		end
+		if self.moving then
+			rive.play_anim("#rivemodel", "run_shoot", go.PLAYBACK_LOOP_FORWARD)
+			self.currentAnim = "run_shoot"
+		else
+			rive.play_anim("#rivemodel", "shoot", go.PLAYBACK_LOOP_FORWARD)
+			self.currentAnim = "shoot"
 		end
 	end
 end

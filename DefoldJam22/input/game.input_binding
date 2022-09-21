@@ -16,7 +16,7 @@ gamepad_trigger {
 }
 gamepad_trigger {
   input: GAMEPAD_RTRIGGER
-  action: "rt"
+  action: "shoot"
 }
 gamepad_trigger {
   input: GAMEPAD_LTRIGGER
@@ -28,7 +28,7 @@ gamepad_trigger {
 }
 gamepad_trigger {
   input: GAMEPAD_RSHOULDER
-  action: "rb"
+  action: "wpn_switch"
 }
 gamepad_trigger {
   input: GAMEPAD_RPAD_UP
