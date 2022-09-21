@@ -30,7 +30,6 @@ function init(self)
 	go.set_position(grid_to_real(self.gridCoords))
 	self.momentum = vmath.vector3() -- momentum represents forces, NOT the fairy
 	self.controlMomentum = vmath.vector3()
-	self.gridSpeed = 1
 	rive.play_anim("#rivemodel", "idle", go.PLAYBACK_ONCE_BACKWARD)
 	self.currentAnim = "idle"
 end
@@ -146,15 +145,15 @@ function on_input(self, action_id, action)
 		if action_id == hash("left") then
 			self.overrideProtection = false
 			local gridPos = real_to_grid(go.get_position())
-			local target = vmath.vector3(gridPos.x-self.gridSpeed,gridPos.y,0)
-			self.controlMomentum.y = - self.gridSpeed
+			local target = vmath.vector3(gridPos.x-1,gridPos.y,0)
+			self.controlMomentum.y = - 1
 			move_fairy(self, target)
 			self.facingRight = false
 		elseif action_id == hash("right") then
 			self.overrideProtection = false
 			local gridPos = real_to_grid(go.get_position())
-			local target = vmath.vector3(gridPos.x+self.gridSpeed,gridPos.y,0)
-			self.controlMomentum.x = self.gridSpeed
+			local target = vmath.vector3(gridPos.x+1,gridPos.y,0)
+			self.controlMomentum.x = 1
 			move_fairy(self, target)
 			self.facingRight = true
 		end
@@ -163,12 +162,12 @@ function on_input(self, action_id, action)
 	if action_id == hash("jump") and is_grounded(real_to_grid(go.get_position())) then
 		self.overrideProtection = true
 		local gridPos = real_to_grid(go.get_position())
-		local target = vmath.vector3(gridPos.x - self.gridSpeed,gridPos.y+3,0)
+		local target = vmath.vector3(gridPos.x - 1,gridPos.y+3,0)
 		self.controlMomentum.y = 3
-		self.controlMomentum.x = - self.gridSpeed
+		self.controlMomentum.x = - 1
 		if self.facingRight then 
-			target.x = gridPos.x + self.gridSpeed
-			self.controlMomentum.x = self.gridSpeed
+			target.x = gridPos.x + 1
+			self.controlMomentum.x = 1
 		end
 		move_fairy(self, target)
 	elseif action_id == hash("sprint") then
