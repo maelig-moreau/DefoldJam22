@@ -100,6 +100,7 @@ end
 function update(self, dt)
 	local pPos = real_to_grid(go.get_position())
 	local grounded = is_grounded(pPos)
+	print(grounded)
 	if grounded then self.momentum.y = 0 end
 	if self.moving == false then
 		if grounded == false then
@@ -125,7 +126,7 @@ function update(self, dt)
 			rive.play_anim("#rivemodel", "jump", go.PLAYBACK_ONCE_BACKWARD)
 			self.currentAnim = "jump"
 		end
-		if is_grounded(real_to_grid(go.get_position())) == false or self.fairy ~= nil then
+		if grounded == false or self.fairy ~= nil then
 			if tilemap.get_tile("/terrain#test_room", "collision", move.x, move.y+1) ~= 0 then 
 				move.y = move.y + 1
 			end
