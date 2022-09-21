@@ -1,7 +1,5 @@
-go.property("speed", 4)
-go.property("airSpeed", 2)
-go.property("gridSpeedSprint", 1)
-go.property("gridSpeedWalk", 1)
+go.property("speedSprint", 8)
+go.property("speedWalk", 4)
 
 local function grid_to_real(vector3)
 	local newvect = vmath.vector3(0,0,0)
@@ -12,22 +10,24 @@ end
 
 local function real_to_grid(vector3)
 	local newvect = vmath.vector3(0,0,0)
-	newvect.x = math.ceil(vector3.x / CELL_SIDE)
-	newvect.y = math.ceil(vector3.y / CELL_SIDE)
+	newvect.x = math.floor(vector3.x / CELL_SIDE)
+	newvect.y = math.floor(vector3.y / CELL_SIDE)
 	return newvect
 end
 
-
 function init(self)
+	curentLevel = go.get_id("/terrain")
 	CELL_SIDE = 50
 	FAKE_FLOOR = 200 -- testing variable
 	DEADZONE_SIZE = 0.6 --ranging from 0 to 1
 	msg.post(".","acquire_input_focus")
 	self.fairy = nil
+	self.speed = self.speedWalk
 	self.currentMovement = vmath.vector3(0,0,0)
 	self.moving = false
+	self.shooting = false
 	self.facingRight = true
-	self.gridCoords = vmath.vector3(5,5,0)
+	self.gridCoords = vmath.vector3(8,8,0)
 	go.set_position(grid_to_real(self.gridCoords))
 	self.momentum = vmath.vector3() -- momentum represents forces, NOT the fairy
 	self.controlMomentum = vmath.vector3() --Cette valeure est a NIL de manière purement et simplement permanente
@@ -39,11 +39,34 @@ function init(self)
 	self.currentAnim = "idle"
 end
 
-local function is_grounded(self)
-	-- will contain all verifications needed in the future
+local function is_grounded(vector3) -- checks if position has tile under
 	local bool = true
-	if go.get_position().y > FAKE_FLOOR then bool = false end
+	local tile = tilemap.get_tile("/terrain#test_room", "collision", vector3.x, vector3.y)
+	if tile == 0 then
+		bool = false
+	elseif tile == nil then
+		bool = nil
+	end
 	return bool
+end
+
+local function is_walled(position, height) -- defaults on player
+	if height == nil then height = 2 end
+	if position == nil then position = real_to_grid(go.get_position()) end
+	local blocked = {top=false,right=false,left=false}
+	local tile = nil
+	for i=1,height,1 do
+		if tilemap.get_tile("/terrain#test_room", "collision", position.x+1, position.y+i) ~= 0 then
+			blocked.right = true
+		end
+		if tilemap.get_tile("/terrain#test_room", "collision", position.x-1, position.y+i) ~= 0 then
+			blocked.left = true
+		end
+	end
+	if tilemap.get_tile("/terrain#test_room", "collision", position.x, position.y+height) ~= 0 then
+		blocked.top = true
+	end
+	return blocked
 end
 
 local function move_finished(self)
@@ -58,16 +81,20 @@ local function move_fairy(self,target)
 	-- it is visually represented in the game space and is used to
 	-- connect movements to each other
 	self.fairy = target
-	go.set_position(grid_to_real(target),go.get_id("/visual_buffer"))
+	local pos = real_to_grid(go.get_position())
+	if is_walled(nil, nil).left and self.fairy.x < pos.x then self.fairy.x = pos.x end
+	if is_walled(nil, nil).right and self.fairy.x > pos.x then self.fairy.x = pos.x end
 	local i = 1
 	local foundGround = false
 	local pos = self.fairy + self.momentum + self.controlMomentum
 	while foundGround == false do
 		i = i - 1
 		local newpos = vmath.vector3(pos.x,pos.y+i,0)
-		local convertedPos = grid_to_real(newpos)
-		if convertedPos.y <= 200 then
-			go.set_position(convertedPos,go.get_id("/anticipator"))
+		local grounded = is_grounded(newpos)
+		if grounded == nil then
+			break
+		elseif grounded then
+			go.set_position(grid_to_real(newpos),go.get_id("/anticipator"))
 			break
 		end
 		if i < -100 then break end
@@ -84,8 +111,11 @@ function update(self, dt)
 	--print(self.facingRight)
 	--print(self.moving)
 	print(self.fairy)
+	local pPos = real_to_grid(go.get_position())
+	local grounded = is_grounded(pPos)
+	if grounded then self.momentum.y = 0 end
 	if self.moving == false then
-		if is_grounded(self) == false then
+		if grounded == false then
 			self.momentum.y = self.momentum.y - 1
 			self.momentum.x = 0 --LETS FUCKING GOOOOOO (ça tombe comme une enclume après le petit momentum boost)
 			if self.facingRight == true then
@@ -106,12 +136,9 @@ function update(self, dt)
 				end
 			end
 		else
-			local pos = go.get_position()
-			pos.y = FAKE_FLOOR
-			go.set_position(pos)
 			self.momentum.y = 0
 			self.momentum.x = 0
-			if self.currentAnim ~= "run" then
+			if self.currentAnim ~= "run" and self.shooting == false then
 				rive.play_anim("#rivemodel", "run", go.PLAYBACK_LOOP_FORWARD)
 				self.currentAnim = "run"
 			end
@@ -128,28 +155,30 @@ function update(self, dt)
 			end
 		end
 		local move = vmath.vector3()
-		
-		if self.fairy == nil then
-			move = real_to_grid(go.get_position()) + self.momentum
+
+		if self.fairy == nil and (self.shooting == false or grounded == false) then
+			move = pPos + self.momentum
 			rive.play_anim("#rivemodel", "idle", go.PLAYBACK_ONCE_FORWARD)
 			self.currentAnim = "idle"
-		else
+		elseif self.fairy ~= nil then
 			move = self.fairy + self.momentum
-			--go.set("#rivemodel", "running", true)
 		end
 		if move.y > real_to_grid(go.get_position()).y then
 			rive.play_anim("#rivemodel", "jump", go.PLAYBACK_ONCE_BACKWARD)
 			self.currentAnim = "jump"
 		end
-		if is_grounded(real_to_grid(go.get_position())) == false or self.fairy ~= nil then
-			go.animate(".", "position", go.PLAYBACK_ONCE_FORWARD, grid_to_real(move), go.EASING_LINEAR, 1/self.speed*2,0,move_finished)
+		if grounded == false or self.fairy ~= nil then
+			if tilemap.get_tile("/terrain#test_room", "collision", move.x, move.y+1) ~= 0 then 
+				move.y = move.y + 1
+			end
+			go.animate(".", "position", go.PLAYBACK_ONCE_FORWARD, grid_to_real(move), go.EASING_LINEAR, 1/self.speed,0,move_finished)
 			self.moving = true
 		end
 	end
 end
 
 function on_message(self, message_id, message, sender)
-	
+
 end
 
 function on_input(self, action_id, action)
@@ -177,8 +206,8 @@ function on_input(self, action_id, action)
 			self.facingRight = true
 		end
 	end
-	
-	if action_id == hash("jump") and is_grounded(self) then
+
+	if action_id == hash("jump") and is_grounded(real_to_grid(go.get_position())) then
 		self.overrideProtection = true
 		local gridPos = real_to_grid(go.get_position())
 		local target = vmath.vector3()
@@ -203,15 +232,27 @@ function on_input(self, action_id, action)
 			target.x = gridPos.x +2
 			target.y = gridPos.y +1
 		end
-			move_fairy(self, target)
-		elseif action_id == hash("sprint") then
-			if is_grounded(self) == true and action.value == 1 then --causes stick to cancel sprinting
-			--if action.value == 1 then
-			self.gridSpeed = self.gridSpeedSprint
+		move_fairy(self, target)
+	elseif action_id == hash("sprint") then
+		if is_grounded(real_to_grid(go.get_position())) and action.value == 1 then
+			self.speed = self.speedSprint
 			self.sprinting = true
-			else --if is_grounded(self) then --try ?
-			self.gridSpeed = self.gridSpeedWalk
+		elseif action.released then
+			self.speed = self.speedWalk
 			self.sprinting = false
+		end
+	elseif action_id == hash("shoot") then
+		if action.value > 0.3 then
+			self.shooting = true
+		else
+			self.shooting = false
+		end
+		if self.moving then
+			rive.play_anim("#rivemodel", "run_shoot", go.PLAYBACK_LOOP_FORWARD)
+			self.currentAnim = "run_shoot"
+		else
+			rive.play_anim("#rivemodel", "shoot", go.PLAYBACK_LOOP_FORWARD)
+			self.currentAnim = "shoot"
 		end
 	end
 end

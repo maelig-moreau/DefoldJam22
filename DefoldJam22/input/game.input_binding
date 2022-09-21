@@ -1,11 +1,3 @@
-key_trigger {
-  input: KEY_E
-  action: "right"
-}
-key_trigger {
-  input: KEY_A
-  action: "left"
-}
 gamepad_trigger {
   input: GAMEPAD_LSTICK_RIGHT
   action: "right"
@@ -24,7 +16,7 @@ gamepad_trigger {
 }
 gamepad_trigger {
   input: GAMEPAD_RTRIGGER
-  action: "sprint"
+  action: "shoot"
 }
 gamepad_trigger {
   input: GAMEPAD_LTRIGGER
@@ -36,11 +28,11 @@ gamepad_trigger {
 }
 gamepad_trigger {
   input: GAMEPAD_RSHOULDER
-  action: "rb"
+  action: "wpn_switch"
 }
 gamepad_trigger {
   input: GAMEPAD_RPAD_UP
-  action: "jump"
+  action: "y"
 }
 gamepad_trigger {
   input: GAMEPAD_RPAD_LEFT
