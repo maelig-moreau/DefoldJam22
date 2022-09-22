@@ -1,5 +1,7 @@
 function init(self)
 	self.scores = {}
+	mobCount = 0
+	print(msg.url())
 end
 
 function final(self)
@@ -23,7 +25,6 @@ end
 function del_score(self)
 	go.delete(self.scores[1])
 	table.remove(self.scores,1)
-	pprint(self.scores)
 end
 
 function on_message(self, message_id, message, sender)
@@ -34,7 +35,13 @@ function on_message(self, message_id, message, sender)
 		go.animate(label, "rotation", go.PLAYBACK_ONCE_FORWARD, vmath.quat(0, 0, 0.1, 0), go.EASING_OUTQUAD, 0.8)
 		go.animate(label, "position.y", go.PLAYBACK_ONCE_FORWARD, message.pos.y+50, go.EASING_OUTQUAD, 0.8,0,del_score)
 		go.animate(label, "scale.x", go.PLAYBACK_ONCE_FORWARD, 0.6, go.EASING_LINEAR, 0.8)
-		
+	elseif message_id == hash("add_mob") then
+		mobCount = mobCount+1
+	elseif message_id == hash("dead_mob") then
+		mobCount = mobCount - 1
+		if mobCount <= 0 then
+			msg.post("main_menu:/GUI#main_menu", "next_level")
+		end
 	end
 end
 

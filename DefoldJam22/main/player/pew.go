@@ -1,6 +1,6 @@
 components {
   id: "projectile"
-  component: "/main/base/projectile.script"
+  component: "/main/player/projectile.script"
   position {
     x: 0.0
     y: 0.0
@@ -36,7 +36,7 @@ components {
 embedded_components {
   id: "sprite"
   type: "sprite"
-  data: "tile_set: \"/main/base/projectiles.atlas\"\n"
+  data: "tile_set: \"/main/player/projectiles.atlas\"\n"
   "default_animation: \"pew\"\n"
   "material: \"/builtins/materials/sprite.material\"\n"
   "blend_mode: BLEND_MODE_ALPHA\n"

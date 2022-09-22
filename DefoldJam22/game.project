@@ -1,5 +1,5 @@
 [bootstrap]
-main_collection = /main/levels/control_test.collectionc
+main_collection = /menu/main_menu.collectionc
 render = /defold-rive/lua/rive.renderc
 
 [script]

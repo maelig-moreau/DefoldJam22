@@ -1,10 +1,50 @@
-name: "main"
+name: "level"
 instances {
   id: "dummy_bot"
-  prototype: "/main/base/entities/dummy_bot.go"
+  prototype: "/main/entities/dummy_bot.go"
   position {
-    x: 303.0
-    y: 153.0
+    x: 843.0
+    y: 297.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "dummy_bot1"
+  prototype: "/main/entities/dummy_bot.go"
+  position {
+    x: 243.0
+    y: 352.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "dummy_bot2"
+  prototype: "/main/entities/dummy_bot.go"
+  position {
+    x: 536.0
+    y: 373.0
     z: 0.0
   }
   rotation {
@@ -25,7 +65,7 @@ embedded_instances {
   children: "weapon"
   data: "components {\n"
   "  id: \"player_control\"\n"
-  "  component: \"/main/base/player_control.script\"\n"
+  "  component: \"/main/player/player_control.script\"\n"
   "  position {\n"
   "    x: 0.0\n"
   "    y: 0.0\n"
@@ -42,7 +82,7 @@ embedded_instances {
   "}\n"
   "components {\n"
   "  id: \"player_weapons\"\n"
-  "  component: \"/main/base/player_weapons.script\"\n"
+  "  component: \"/main/player/player_weapons.script\"\n"
   "  position {\n"
   "    x: 0.0\n"
   "    y: 0.0\n"
@@ -60,7 +100,7 @@ embedded_instances {
   "embedded_components {\n"
   "  id: \"rivemodel\"\n"
   "  type: \"rivemodel\"\n"
-  "  data: \"scene: \\\"/main/base/player_character.rivescene\\\"\\n"
+  "  data: \"scene: \\\"/main/player/player_character.rivescene\\\"\\n"
   "default_animation: \\\"idle\\\"\\n"
   "material: \\\"/defold-rive/assets/rivemodel.material\\\"\\n"
   "blend_mode: BLEND_MODE_ALPHA\\n"
@@ -81,7 +121,7 @@ embedded_instances {
   "embedded_components {\n"
   "  id: \"rocket\"\n"
   "  type: \"factory\"\n"
-  "  data: \"prototype: \\\"/main/base/rocket.go\\\"\\n"
+  "  data: \"prototype: \\\"/main/player/rocket.go\\\"\\n"
   "load_dynamically: false\\n"
   "\"\n"
   "  position {\n"
@@ -99,7 +139,7 @@ embedded_instances {
   "embedded_components {\n"
   "  id: \"pew\"\n"
   "  type: \"factory\"\n"
-  "  data: \"prototype: \\\"/main/base/pew.go\\\"\\n"
+  "  data: \"prototype: \\\"/main/player/pew.go\\\"\\n"
   "load_dynamically: false\\n"
   "\"\n"
   "  position {\n"
@@ -221,8 +261,8 @@ embedded_instances {
 embedded_instances {
   id: "terrain"
   data: "components {\n"
-  "  id: \"test_room\"\n"
-  "  component: \"/main/levels/test_room.tilemap\"\n"
+  "  id: \"terrain\"\n"
+  "  component: \"/main/levels/level2.tilemap\"\n"
   "  position {\n"
   "    x: 0.0\n"
   "    y: 0.0\n"
@@ -240,7 +280,7 @@ embedded_instances {
   "embedded_components {\n"
   "  id: \"collisionobject\"\n"
   "  type: \"collisionobject\"\n"
-  "  data: \"collision_shape: \\\"/main/levels/test_room.tilemap\\\"\\n"
+  "  data: \"collision_shape: \\\"/main/levels/level1.tilemap\\\"\\n"
   "type: COLLISION_OBJECT_TYPE_STATIC\\n"
   "mass: 0.0\\n"
   "friction: 0.1\\n"
@@ -287,7 +327,7 @@ embedded_instances {
   data: "embedded_components {\n"
   "  id: \"sprite\"\n"
   "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/main/base/weapons.atlas\\\"\\n"
+  "  data: \"tile_set: \\\"/main/player/weapons.atlas\\\"\\n"
   "default_animation: \\\"none\\\"\\n"
   "material: \\\"/builtins/materials/sprite.material\\\"\\n"
   "blend_mode: BLEND_MODE_ALPHA\\n"
@@ -326,7 +366,7 @@ embedded_instances {
   id: "camera"
   data: "components {\n"
   "  id: \"camera1\"\n"
-  "  component: \"/main/base/camera.script\"\n"
+  "  component: \"/main/player/camera.script\"\n"
   "  position {\n"
   "    x: 0.0\n"
   "    y: 0.0\n"
@@ -386,7 +426,7 @@ embedded_instances {
   id: "score_manager"
   data: "components {\n"
   "  id: \"score_manager\"\n"
-  "  component: \"/feedbacks/score_manager.script\"\n"
+  "  component: \"/main/score_manager.script\"\n"
   "  position {\n"
   "    x: 0.0\n"
   "    y: 0.0\n"

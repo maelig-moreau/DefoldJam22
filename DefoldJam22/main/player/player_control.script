@@ -16,6 +16,7 @@ local function real_to_grid(vector3)
 end
 
 function init(self)
+	msg.post("@render:", "clear_color", { color = vmath.vector4(0.2, 0.4, 0.9, 0) } )
 	sound.play("/music#main_theme")
 	curentLevel = go.get_id("/terrain")
 	CELL_SIDE = 50
@@ -37,7 +38,7 @@ end
 
 local function is_grounded(vector3) -- checks if position has tile under
 	local bool = true
-	local tile = tilemap.get_tile("/terrain#test_room", "collision", vector3.x, vector3.y)
+	local tile = tilemap.get_tile("/terrain#terrain", "collision", vector3.x, vector3.y)
 	if tile == 0 then
 		bool = false
 	elseif tile == nil then
@@ -52,19 +53,19 @@ local function is_walled(position, height) -- defaults on player
 	local blocked = {top=false,right=false,left=false}
 	local tile = nil
 	for i=1,height,1 do
-		if tilemap.get_tile("/terrain#test_room", "collision", position.x+1, position.y+i) ~= 0 then
+		if tilemap.get_tile("/terrain#terrain", "collision", position.x+1, position.y+i) ~= 0 then
 			blocked.right = true
-			if debugMode then tilemap.set_tile("/terrain#test_room", "debug", position.x+1, position.y+i,3) end
+			if debugMode then tilemap.set_tile("/terrain#terrain", "debug", position.x+1, position.y+i,3) end
 		end
-		if tilemap.get_tile("/terrain#test_room", "collision", position.x-1, position.y+i) ~= 0 then
+		if tilemap.get_tile("/terrain#terrain", "collision", position.x-1, position.y+i) ~= 0 then
 			blocked.left = true
-			if debugMode then tilemap.set_tile("/terrain#test_room", "debug", position.x-1, position.y+i,3) end
+			if debugMode then tilemap.set_tile("/terrain#terrain", "debug", position.x-1, position.y+i,3) end
 		end
 	end
 	
-	if tilemap.get_tile("/terrain#test_room", "collision", position.x, position.y+1+height) ~= 0 then
+	if tilemap.get_tile("/terrain#terrain", "collision", position.x, position.y+1+height) ~= 0 then
 		blocked.top = true
-		if debugMode then tilemap.set_tile("/terrain#test_room", "debug", position.x, position.y+1+height,3) end
+		if debugMode then tilemap.set_tile("/terrain#terrain", "debug", position.x, position.y+1+height,3) end
 	end
 	return blocked
 end

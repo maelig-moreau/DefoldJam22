@@ -1,5 +1,6 @@
 function init(self)
 	self.feedbackCD = 0
+	msg.post("/score_manager", "add_mob")
 end
 
 function final(self)
@@ -20,13 +21,14 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("collision_response") then
-		--if message.other_group == hash("projecile") then
-		--go.delete()
-		if self.feedbackCD == 0 then
-			msg.post("/score_manager", "gain_score",{amount=400,pos=go.get_position()})
-			self.feedbackCD = 0.2
+		if message.other_group == hash("projectile") then
+			msg.post("/score_manager", "dead_mob")
+			go.delete()
+			if self.feedbackCD == 0 then
+				msg.post("/score_manager", "gain_score",{amount=400,pos=go.get_position()})
+				self.feedbackCD = 0.2
+			end
 		end
-		--end
 	end
 end
 

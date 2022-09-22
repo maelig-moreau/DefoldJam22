@@ -1,3 +1,7 @@
+mouse_trigger {
+  input: MOUSE_BUTTON_1
+  action: "lclick"
+}
 gamepad_trigger {
   input: GAMEPAD_LSTICK_RIGHT
   action: "right"
@@ -45,4 +49,8 @@ gamepad_trigger {
 gamepad_trigger {
   input: GAMEPAD_RPAD_RIGHT
   action: "b"
+}
+gamepad_trigger {
+  input: GAMEPAD_START
+  action: "start"
 }
