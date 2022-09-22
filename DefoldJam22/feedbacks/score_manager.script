@@ -1,0 +1,57 @@
+function init(self)
+	self.scores = {}
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function fixed_update(self, dt)
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function del_score(self)
+	go.delete(self.scores[1])
+	table.remove(self.scores,1)
+	pprint(self.scores)
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("gain_score") then
+		local label = factory.create("#factory")
+		go.set_position(message.pos,label)
+		table.insert(self.scores,label)
+		go.animate(label, "rotation", go.PLAYBACK_ONCE_FORWARD, vmath.quat(0, 0, 0.1, 0), go.EASING_OUTQUAD, 0.8)
+		go.animate(label, "position.y", go.PLAYBACK_ONCE_FORWARD, message.pos.y+50, go.EASING_OUTQUAD, 0.8,0,del_score)
+		go.animate(label, "scale.x", go.PLAYBACK_ONCE_FORWARD, 0.6, go.EASING_LINEAR, 0.8)
+		
+	end
+end
+
+function on_input(self, action_id, action)
+	-- Add input-handling code here. The game object this script is attached to
+	-- must have acquired input focus:
+	--
+	--    msg.post(".", "acquire_input_focus")
+	--
+	-- All mapped input bindings will be received. Mouse and touch input will
+	-- be received regardless of where on the screen it happened.
+	-- Learn more: https://defold.com/manuals/input/
+	-- Remove this function if not needed
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end
