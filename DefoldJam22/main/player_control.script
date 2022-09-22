@@ -1,4 +1,5 @@
 ----------Gros overshoot sur les saut en sprint, a voir
+----------on ne monte plus les murs en courant (on abuse de la fairy)
 
 local function grid_to_real(vector3)
 	local newvect = vmath.vector3(0,0,0)
@@ -107,9 +108,18 @@ function update(self, dt)
 	--print(self.lilHoping)
 	--print(self.facingRight)
 	--print(self.moving)
-	print(self.fairy)
+	--print(self.fairy)
+	--print(self.overrideProtection)
 	local pPos = real_to_grid(go.get_position())
 	local grounded = is_grounded(pPos)
+	--print(pPos)
+	print("playerpos =", pPos, "fairypos=", self.fairy)
+	local anticipatedFall = vmath.vector3(pPos.x, pPos.y+self.momentum.y-1, 0) 
+	if is_grounded(anticipatedFall) and grounded == false and self.momentum.y < -1 then --empèche le personnage de s'écraser après unr grosse chute
+		self.momentum.y = 0
+		--jouer une animation ?
+	end
+	--if is_grounded(pPos.x, pPos.y+self.momentum.y, 0) then self.momentum.y = self.momentum.y+1 end
 	if grounded then self.momentum.y = 0 end
 	if self.moving == false then
 		if grounded == false then
@@ -117,18 +127,34 @@ function update(self, dt)
 			self.momentum.x = 0 --LETS FUCKING GOOOOOO (ça tombe comme une enclume après le petit momentum boost)
 			if self.facingRight == true then
 				if self.lilHoping == true then
-					self.momentum.x = self.momentum.x + 1
+					if is_walled(nil, nil).right == false then
+						self.momentum.x = self.momentum.x + 1
+					end
+					--self.momentum.y = self.momentum.y +1 tentative un peu honteuse de scam le système
 					self.lilHoping = false
 				elseif self.runHoping == true then
-					self.momentum.x = self.momentum.x + 2
+					if is_walled(nil, nil).right == false then
+						self.momentum.x = self.momentum.x + 2
+					else 
+						self.momentum.x = 0
+					end
+					--self.momentum.y = self.momentum.y +1
 					self.runHoping = false
 				end
 			elseif self.facingRight == false then
 				if self.lilHoping == true then
-					self.momentum.x = self.momentum.x-1
+					if is_walled(nil, nil).left == false then
+						self.momentum.x = self.momentum.x-1
+					end
+					--self.momentum.y = self.momentum.y +1
 					self.lilHoping = false
 				elseif self.runHoping == true then
-					self.momentum.x = self.momentum.x-2
+					if is_walled(nil, nil).left == false then
+						self.momentum.x = self.momentum.x-2
+					else 
+						self.momentum.x = 0
+					end
+					--self.momentum.y = self.momentum.y +1
 					self.runHoping = false
 				end
 			end
@@ -142,12 +168,20 @@ function update(self, dt)
 			if self.facingRight == true then 
 				go.set(".","euler.y",180) 
 				if self.sprinting == true then
-					self.momentum.x = self.momentum.x+1
+					if is_walled(nil, nil).right == false then
+						--local target = vmath.vector3(pPos.x+1,pPos.y,0)
+						--move_fairy(self, target)
+						--self.momentum.x = self.momentum.x+1
+					end
 				end
 			else
 				go.set(".","euler.y",0) 
 				if self.sprinting == true then
-					self.momentum.x = self.momentum.x-1
+					if is_walled(nil, nil).left == false then
+						--local target = vmath.vector3(pPos.x-1,pPos.y,0) --ne se stack pas avec la direction :/
+						--self.momentum.x = self.momentum.x-1
+						--move_fairy(self, target)
+					end
 				end
 			end
 		end
@@ -183,9 +217,14 @@ function on_input(self, action_id, action)
 		if action_id == hash("left") and action.value > DEADZONE_SIZE then
 			self.overrideProtection = false
 			local gridPos = real_to_grid(go.get_position())
-			local target = vmath.vector3(gridPos.x-1,gridPos.y,0)
-			self.controlMomentum.y = - 1
-			move_fairy(self, target)
+			local target = vmath.vector3()
+			if self.sprinting == true then
+				target = vmath.vector3(gridPos.x-2,gridPos.y,0)
+			else
+				target = vmath.vector3(gridPos.x-1,gridPos.y,0) --on essaie comme on peut
+			end
+				self.controlMomentum.y = - 1
+				move_fairy(self, target)
 			--if self.gridSpeed == 2 then --tentative d'imposer un élan avant le grand saut
 			--	self.sprinting = true
 			--end
@@ -193,7 +232,12 @@ function on_input(self, action_id, action)
 		elseif action_id == hash("right") and action.value > DEADZONE_SIZE then
 			self.overrideProtection = false
 			local gridPos = real_to_grid(go.get_position())
-			local target = vmath.vector3(gridPos.x+1,gridPos.y,0)
+			local target = vmath.vector3()
+			if self.sprinting == true then
+				target = vmath.vector3(gridPos.x+2,gridPos.y,0)
+			else
+				target = vmath.vector3(gridPos.x+1,gridPos.y,0) --on essaie comme on peut
+			end
 			self.controlMomentum.x = 1
 			move_fairy(self, target)
 			--if self.gridSpeed == 2 then --tentative d'imposer un élan avant le grand saut
