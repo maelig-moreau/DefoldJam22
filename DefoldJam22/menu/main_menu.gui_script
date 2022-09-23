@@ -30,7 +30,7 @@ function init(self)
 	self.level = 1
 	self.inMenu = true
 	msg.post("@render:", "clear_color", { color = vmath.vector4(0.2, 0.4, 0.9, 0) } )
-	--sound.play("#music")
+	sound.play("#music")
 	-- slot 1 = main menu, slot 2 = next
 	self.allBoxes = {{gui.get_node("start"),gui.get_node("levels")},
 	{gui.get_node("next"),gui.get_node("main_menu")},
