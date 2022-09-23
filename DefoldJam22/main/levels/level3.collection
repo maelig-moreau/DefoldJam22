@@ -3,8 +3,8 @@ instances {
   id: "dummy_bot"
   prototype: "/main/entities/dummy_bot.go"
   position {
-    x: 879.0
-    y: 97.0
+    x: 241.0
+    y: -272.0
     z: 0.0
   }
   rotation {
@@ -23,8 +23,8 @@ instances {
   id: "dummy_bot1"
   prototype: "/main/entities/dummy_bot.go"
   position {
-    x: 750.0
-    y: 220.0
+    x: 744.0
+    y: 160.0
     z: 0.0
   }
   rotation {
@@ -77,6 +77,126 @@ instances {
   scale3 {
     x: 0.3
     y: 0.3
+    z: 1.0
+  }
+}
+instances {
+  id: "dummy_bot3"
+  prototype: "/main/entities/dummy_bot.go"
+  position {
+    x: 831.0
+    y: -525.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "dummy_bot4"
+  prototype: "/main/entities/dummy_bot.go"
+  position {
+    x: 71.0
+    y: -669.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "dummy_bot5"
+  prototype: "/main/entities/dummy_bot.go"
+  position {
+    x: 877.0
+    y: -866.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "scientist"
+  prototype: "/main/set/scientist.go"
+  position {
+    x: 859.0
+    y: -50.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "scientist1"
+  prototype: "/main/set/scientist.go"
+  position {
+    x: 691.0
+    y: -1200.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "scientist2"
+  prototype: "/main/set/scientist.go"
+  position {
+    x: 784.0
+    y: -1200.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
     z: 1.0
   }
 }

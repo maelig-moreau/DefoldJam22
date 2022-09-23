@@ -1,3 +1,43 @@
+key_trigger {
+  input: KEY_W
+  action: "up"
+}
+key_trigger {
+  input: KEY_A
+  action: "left"
+}
+key_trigger {
+  input: KEY_S
+  action: "down"
+}
+key_trigger {
+  input: KEY_D
+  action: "right"
+}
+key_trigger {
+  input: KEY_LCTRL
+  action: "sprint"
+}
+key_trigger {
+  input: KEY_SPACE
+  action: "jump"
+}
+key_trigger {
+  input: KEY_K
+  action: "shoot"
+}
+key_trigger {
+  input: KEY_J
+  action: "wpn_switch"
+}
+key_trigger {
+  input: KEY_ESC
+  action: "esc"
+}
+key_trigger {
+  input: KEY_ENTER
+  action: "enter"
+}
 mouse_trigger {
   input: MOUSE_BUTTON_1
   action: "lclick"
@@ -48,7 +88,7 @@ gamepad_trigger {
 }
 gamepad_trigger {
   input: GAMEPAD_RPAD_RIGHT
-  action: "b"
+  action: "esc"
 }
 gamepad_trigger {
   input: GAMEPAD_START

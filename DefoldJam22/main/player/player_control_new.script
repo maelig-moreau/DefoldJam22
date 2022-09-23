@@ -1,6 +1,4 @@
 --Main tasks : collisions diagonales et attraper les bords
-
-
 --Obliger l'élan avant un saut ?
 --Permettre de courir sur une seule case après l'élan de base ?
 local function grid_to_real(vector3)
@@ -31,8 +29,6 @@ function init(self)
 	self.moving = false
 	self.shooting = false
 	self.facingRight = true
-	--self.gridCoords = vmath.vector3(8,8,0)
-	--go.set_position(grid_to_real(self.gridCoords))
 	self.momentum = vmath.vector3() -- momentum represents forces, NOT the fairy
 	self.controlMomentum = vmath.vector3() --Cette valeure est a NIL de manière purement et simplement permanente
 	self.sprinting = false --a state to check for deciding momentum
@@ -305,14 +301,11 @@ function update(self, dt)
 			if tilemap.get_tile(curentLevel, "collision", move.x, move.y+1) ~= 0 then 
 				move.y = move.y + 1
 			end
+			sound.play("#steps")
 			go.animate(".", "position", go.PLAYBACK_ONCE_FORWARD, grid_to_real(move), go.EASING_LINEAR, 1/4,0,move_finished)
 			self.moving = true
 		end
 	end
-end
-
-function on_message(self, message_id, message, sender)
-
 end
 
 function on_input(self, action_id, action)
@@ -422,10 +415,4 @@ function on_input(self, action_id, action)
 			self.currentAnim = "shoot"
 		end
 	end
-end
-
-function on_reload(self)
-	-- Add reload-handling code here
-	-- Learn more: https://defold.com/manuals/hot-reload/
-	-- Remove this function if not needed
 end

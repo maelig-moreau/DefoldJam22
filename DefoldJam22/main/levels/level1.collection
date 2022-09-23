@@ -3,8 +3,8 @@ instances {
   id: "dummy_bot"
   prototype: "/main/entities/dummy_bot.go"
   position {
-    x: 468.0
-    y: 117.0
+    x: 610.0
+    y: -29.0
     z: 0.0
   }
   rotation {
@@ -23,8 +23,8 @@ instances {
   id: "dummy_bot1"
   prototype: "/main/entities/dummy_bot.go"
   position {
-    x: -4.0
-    y: 272.0
+    x: -135.0
+    y: -259.0
     z: 0.0
   }
   rotation {
@@ -43,8 +43,8 @@ instances {
   id: "dummy_bot2"
   prototype: "/main/entities/dummy_bot.go"
   position {
-    x: 289.0
-    y: 293.0
+    x: -101.0
+    y: -613.0
     z: 0.0
   }
   rotation {
@@ -64,8 +64,8 @@ instances {
   prototype: "/main/player/player.go"
   children: "weapon"
   position {
-    x: 0.0
-    y: 0.0
+    x: -111.0
+    y: -95.0
     z: 0.0
   }
   rotation {
@@ -77,6 +77,126 @@ instances {
   scale3 {
     x: 0.3
     y: 0.3
+    z: 1.0
+  }
+}
+instances {
+  id: "dummy_bot3"
+  prototype: "/main/entities/dummy_bot.go"
+  position {
+    x: 537.0
+    y: -613.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "scientist1"
+  prototype: "/main/set/scientist.go"
+  position {
+    x: 202.0
+    y: -100.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "scientist2"
+  prototype: "/main/set/scientist.go"
+  position {
+    x: 275.0
+    y: -100.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "scientist3"
+  prototype: "/main/set/scientist.go"
+  position {
+    x: 357.0
+    y: -750.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "scientist4"
+  prototype: "/main/set/scientist.go"
+  position {
+    x: 315.0
+    y: -750.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "scientist5"
+  prototype: "/main/set/scientist.go"
+  position {
+    x: 63.0
+    y: -750.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
     z: 1.0
   }
 }
