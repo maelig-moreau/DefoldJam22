@@ -3,8 +3,8 @@ instances {
   id: "dummy_bot"
   prototype: "/main/entities/dummy_bot.go"
   position {
-    x: 987.0
-    y: 93.0
+    x: 879.0
+    y: 97.0
     z: 0.0
   }
   rotation {
@@ -23,8 +23,8 @@ instances {
   id: "dummy_bot1"
   prototype: "/main/entities/dummy_bot.go"
   position {
-    x: 986.0
-    y: 341.0
+    x: 750.0
+    y: 220.0
     z: 0.0
   }
   rotation {
@@ -43,8 +43,8 @@ instances {
   id: "dummy_bot2"
   prototype: "/main/entities/dummy_bot.go"
   position {
-    x: 487.0
-    y: 443.0
+    x: 251.0
+    y: 322.0
     z: 0.0
   }
   rotation {

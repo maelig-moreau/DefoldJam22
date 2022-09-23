@@ -19,7 +19,8 @@ end
 
 function init(self)
 	--msg.post("@render:", "clear_color", { color = vmath.vector4(1, 0, 0, 0) } ) J'ai mal
-	curentLevel = go.get_id("/terrain")
+	playerPosition = go.get_position()
+	curentLevel = "/terrain#terrain"
 	CELL_SIDE = 50
 	DEADZONE_SIZE = 0.6 --ranging from 0 to 1
 	msg.post(".","acquire_input_focus")
@@ -44,7 +45,7 @@ end
 
 local function is_grounded(vector3) -- checks if position has tile under
 	local bool = true
-	local tile = tilemap.get_tile("/terrain#test_room", "collision", vector3.x, vector3.y)
+	local tile = tilemap.get_tile(curentLevel, "collision", vector3.x, vector3.y)
 	if tile == 0 then
 		bool = false
 	elseif tile == nil then
@@ -59,14 +60,14 @@ local function is_walled(position, height) -- defaults on player
 	local blocked = {top=false,right=false,left=false}
 	local tile = nil
 	for i=1,height,1 do
-		if tilemap.get_tile("/terrain#test_room", "collision", position.x+1, position.y+i) ~= 0 then
+		if tilemap.get_tile(curentLevel, "collision", position.x+1, position.y+i) ~= 0 then
 			blocked.right = true
 		end
-		if tilemap.get_tile("/terrain#test_room", "collision", position.x-1, position.y+i) ~= 0 then
+		if tilemap.get_tile(curentLevel, "collision", position.x-1, position.y+i) ~= 0 then
 			blocked.left = true
 		end
 	end
-	if tilemap.get_tile("/terrain#test_room", "collision", position.x, position.y+height) ~= 0 then
+	if tilemap.get_tile(curentLevel, "collision", position.x, position.y+height) ~= 0 then
 		blocked.top = true
 	end
 	return blocked
@@ -153,6 +154,7 @@ function checkHands(self)
 end
 
 function update(self, dt)
+	playerPosition = go.get_position()
 	--print(self.momentum)
 	--print(controlMomentum)
 	--print(self.facingRight)
@@ -300,7 +302,7 @@ function update(self, dt)
 			self.currentAnim = "jump"
 		end
 		if grounded == false or self.fairy ~= nil then
-			if tilemap.get_tile("/terrain#test_room", "collision", move.x, move.y+1) ~= 0 then 
+			if tilemap.get_tile(curentLevel, "collision", move.x, move.y+1) ~= 0 then 
 				move.y = move.y + 1
 			end
 			go.animate(".", "position", go.PLAYBACK_ONCE_FORWARD, grid_to_real(move), go.EASING_LINEAR, 1/4,0,move_finished)

@@ -17,7 +17,7 @@ end
 
 function init(self)
 	sound.set_group_gain("SFX",0.4)
-	curentLevel = go.get_id("/terrain")
+	curentLevel = go.get_id("/terrain#terrain")
 	CELL_SIDE = 50
 	FAKE_FLOOR = 200 -- testing variable
 	msg.post(".","acquire_input_focus")
