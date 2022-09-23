@@ -1,4 +1,4 @@
---Main tasks : collisions diagonales et attraper les bords
+--Main tasks : Attraper les bords
 
 
 --Obliger l'élan avant un saut ?
@@ -23,15 +23,11 @@ function init(self)
 	CELL_SIDE = 50
 	DEADZONE_SIZE = 0.6 --ranging from 0 to 1
 	msg.post(".","acquire_input_focus")
-	--self.fairy = real_to_grid(go.get_position())
 	self.fairy = nil
-	--self.speed = self.speedWalk
 	self.currentMovement = vmath.vector3(0,0,0)
 	self.moving = false
 	self.shooting = false
 	self.facingRight = true
-	--self.gridCoords = vmath.vector3(8,8,0)
-	--go.set_position(grid_to_real(self.gridCoords))
 	self.momentum = vmath.vector3() -- momentum represents forces, NOT the fairy
 	self.controlMomentum = vmath.vector3() --Cette valeure est a NIL de manière purement et simplement permanente
 	self.sprinting = false --a state to check for deciding momentum
@@ -75,9 +71,7 @@ end
 local function move_finished(self)
 	self.overrideProtection = false
 	self.moving = false
-	--print("ping")
 	self.fairy = nil
-	--self.fairy = real_to_grid(go.get_position())
 	self.controlMomentum = vmath.vector3()
 end
 
@@ -98,13 +92,9 @@ local function move_fairy(self,target)
 		if is_walled(pos-vectorJ, nil).left and self.fairy.x < pos.x then self.fairy.x = pos.x-vectorJ.x end
 		if is_walled(pos+vectorJ, nil).right and self.fairy.x > pos.x then self.fairy.x = pos.x+vectorJ.x end
 	end
-	--local h = 0
-	--if self.lilHoping == 2 or self.runHoping == 2 then
-	--	h = 1
-	--end
 	local vectorK = vmath.vector3(0, 1, 0)
 	local verticalBlocked = false
-	if is_walled(pos+vectorK, height).top == true and (self.lilHoping == 2 or self.RunHoping == 2 or self.neutralHoping == true) then 
+	if is_walled(pos+vectorK, height).top == true and (self.lilHoping == 2 or self.runHoping == 2 or self.neutralHoping == true) then 
 		print("ping")
 		self.fairy.y = pos.y 
 		self.lilHoping = 0
@@ -125,11 +115,6 @@ local function move_fairy(self,target)
 			self.neutralHoping = false
 		end
 	end
-
-	--if is_walled(pos-vectorJ, nil).left and self.fairy.x < pos.x then self.fairy.x = pos.x+vectorJ.x end --on va voir
-	--if is_walled(pos+displace, nil).right and self.fairy.x > pos.x then self.fairy.x = pos.x-vectorJ.x end
-	--if is_walled(nil, nil).left and self.fairy.x < pos.x then self.fairy.x = pos.x end --on va voir
-	--if is_walled(nil, nil).right and self.fairy.x > pos.x then self.fairy.x = pos.x end
 	local i = 1
 	local foundGround = false
 	local pos = self.fairy + self.momentum + self.controlMomentum
@@ -147,8 +132,15 @@ local function move_fairy(self,target)
 	end
 end
 
-function checkHands(self)
-	if self.facingRight == true then
+function check_hands(self)
+	if is_grounded(go.get_position()) == false then
+		local pPos = vmath.vector3()
+		pPos = real_to_grid(go.get_position())
+		if self.facingRight == true then
+			
+		else
+			
+		end
 	end
 end
 
@@ -164,13 +156,12 @@ function update(self, dt)
 	local pPos = real_to_grid(go.get_position())
 	local grounded = is_grounded(pPos)
 	--print(grounded)
-	--print("LH =",self.lilHoping,"RH=",self.runHoping, "SM", self.moving, "GR", grounded, "SF", self.fairy)
+	--print("LH =",self.lilHoping,"RH=",self.runHoping, "SM", self.moving, "GR", grounded)
 	--print("NH =", self.neutralHoping)
 	--print(pPos)
 	--print("playerpos =", pPos, "fairypos=", self.fairy)
 	local anticipatedFall = vmath.vector3(pPos.x, pPos.y+self.momentum.y-1, 0) 
 	if is_grounded(anticipatedFall) and grounded == false and self.momentum.y < -1 then --empèche le personnage de s'écraser après unr grosse chute
-	print("pong")
 	self.momentum.y = 0
 	self.runHoping = 0
 	self.lilhoping = 0
@@ -209,7 +200,7 @@ function update(self, dt)
 			if self.lilHoping == 0 and self.runHoping == 0 and self.fairy == nil then
 				self.momentum.y = self.momentum.y - 1
 				self.neutralHoping = false
-				self.momentum.x = 0 --LETS FUCKING GOOOOOO (ça tombe comme une enclume après le petit momentum boost)
+				self.momentum.x = 0
 			end
 			if self.facingRight == true then
 				if self.lilHoping == 2 then
@@ -236,29 +227,6 @@ function update(self, dt)
 					self.runHoping = 1
 				end
 			end
-
-			-- if self.facingRight == true then
-			-- 	if self.lilHoping == 1 then
-			-- 		local target = vmath.vector3(1,0,0)
-			-- 		target = pPos + target
-			-- 		move_fairy(self, target)
-			-- 	elseif self.runHoping == 1 then
-			-- 		local target = vmath.vector3(1,0,0)
-			-- 		target = pPos + target
-			-- 		move_fairy(self, target)
-			-- 	end
-			-- elseif self.facingRight == false then
-			-- 	if self.lilHoping == 1 then
-			-- 		local target = vmath.vector3(-1,0,0)
-			-- 		target = pPos + target
-			-- 		move_fairy(self, target)
-			-- 	elseif self.runHoping == 1 then
-			-- 		local target = vmath.vector3(-1,0,0)
-			-- 		target = pPos + target
-			-- 		move_fairy(self, target)
-			-- 	end
-			-- end
-	
 		else
 			self.momentum.y = 0
 			self.momentum.x = 0
@@ -268,22 +236,8 @@ function update(self, dt)
 			end
 			if self.facingRight == true then 
 				go.set(".","euler.y",180) 
-				if self.sprinting == true then
-					if is_walled(nil, nil).right == false then
-						--local target = vmath.vector3(pPos.x+1,pPos.y,0)
-						--move_fairy(self, target)
-						--self.momentum.x = self.momentum.x+1
-					end
-				end
 			else
 				go.set(".","euler.y",0) 
-				if self.sprinting == true then
-					if is_walled(nil, nil).left == false then
-						--local target = vmath.vector3(pPos.x-1,pPos.y,0) --ne se stack pas avec la direction :/
-						--self.momentum.x = self.momentum.x-1
-						--move_fairy(self, target)
-					end
-				end
 			end
 		end
 		local move = vmath.vector3()
@@ -323,10 +277,8 @@ function on_input(self, action_id, action)
 				target = gridPos
 				if self.facingRight == false then
 					if self.sprinting == true then
-						--target.x = vmath.vector3(gridPos.x-2,gridPos.y,0)
 						target.x = target.x-2
 					else
-						--target = vmath.vector3(gridPos.x-1,gridPos.y,0) --on essaie comme on peut
 						target.x = target.x-1
 					end
 				end
@@ -345,10 +297,8 @@ function on_input(self, action_id, action)
 				target = gridPos
 				if self.facingRight == true then
 					if self.sprinting == true then
-						--target = vmath.vector3(gridPos.x+2,gridPos.y,0)
 						target.x = target.x+2
 					else
-						--target = vmath.vector3(gridPos.x+1,gridPos.y,0) --on essaie comme on peut
 						target.x = target.x+1
 					end
 				end
@@ -376,7 +326,6 @@ function on_input(self, action_id, action)
 		self.overrideProtection = true
 		local gridPos = real_to_grid(go.get_position())
 		local target = vmath.vector3()
-		--local target = vmath.vector3(gridPos.x - self.gridSpeed,gridPos.y+1,0)
 		if self.lilHoping == 0 and self.runHoping == 0 and self.fairy == nil and self.moving == false then
 			if self.sprinting == false then
 				self.lilHoping = 2
@@ -385,11 +334,7 @@ function on_input(self, action_id, action)
 			end
 			target.y = gridPos.y +1
 			target.x = gridPos.x -1
-			--self.controlMomentum.y = 1 --useless for now ?
-			--self.controlMomentum.x = - self.gridSpeed --useless for now ?
 			if self.facingRight then 
-				--target.x = gridPos.x + self.gridSpeed
-				--self.controlMomentum.x = self.gridSpeed
 				if self.sprinting == false then
 					self.lilHoping = 2
 				else
