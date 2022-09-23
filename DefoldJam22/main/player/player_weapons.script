@@ -11,6 +11,7 @@ function init(self)
 	self.aiming = vmath.vector3()
 	self.shootCD = 0
 	self.shootRate = 0.1
+	self.facingRight = true
 end
 
 function final(self)
@@ -66,12 +67,14 @@ function on_input(self, action_id, action)
 	elseif action_id == hash("right") then
 		if action.value > 0.3 then
 			self.aiming.x = 1
+			self.facingRight = true
 		elseif self.aiming.y ~= 0 then
 			self.aiming.x = 0
 		end
 	elseif action_id == hash("left") then
 		if action.value > 0.3 then
 			self.aiming.x = -1
+			self.facingRight = false
 		elseif self.aiming.y ~= 0 then
 			self.aiming.x = 0
 		end
