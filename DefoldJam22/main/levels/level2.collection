@@ -124,8 +124,8 @@ instances {
   id: "scientist1"
   prototype: "/main/set/scientist.go"
   position {
-    x: 759.0
-    y: 50.0
+    x: 336.0
+    y: 100.0
     z: 0.0
   }
   rotation {
@@ -144,8 +144,8 @@ instances {
   id: "scientist2"
   prototype: "/main/set/scientist.go"
   position {
-    x: 819.0
-    y: 50.0
+    x: 365.0
+    y: 100.0
     z: 0.0
   }
   rotation {
@@ -164,7 +164,7 @@ instances {
   id: "scientist3"
   prototype: "/main/set/scientist.go"
   position {
-    x: 696.0
+    x: 719.0
     y: 200.0
     z: 0.0
   }

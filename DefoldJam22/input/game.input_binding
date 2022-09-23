@@ -38,6 +38,10 @@ key_trigger {
   input: KEY_ENTER
   action: "enter"
 }
+key_trigger {
+  input: KEY_M
+  action: "mute"
+}
 mouse_trigger {
   input: MOUSE_BUTTON_1
   action: "lclick"

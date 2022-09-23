@@ -84,7 +84,27 @@ instances {
   id: "scientist"
   prototype: "/main/set/scientist.go"
   position {
-    x: 188.0
+    x: 405.0
+    y: -50.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "scientist1"
+  prototype: "/main/set/scientist.go"
+  position {
+    x: 458.0
     y: -50.0
     z: 0.0
   }

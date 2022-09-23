@@ -17,7 +17,10 @@ local function real_to_grid(vector3)
 end
 
 function init(self)
+	math.randomseed(os.time())
 	--msg.post("@render:", "clear_color", { color = vmath.vector4(1, 0, 0, 0) } ) J'ai mal
+	if muted then sound.set_group_gain("SFX",0) end
+	sound.set_group_gain("SFX",0.5)
 	playerPosition = go.get_position()
 	curentLevel = "/terrain#terrain"
 	CELL_SIDE = 50
@@ -40,6 +43,16 @@ function init(self)
 	self.stopHanging = false
 	rive.play_anim("#rivemodel", "idle", go.PLAYBACK_ONCE_BACKWARD)
 	self.currentAnim = "idle"
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("sound_params") then
+		if message.muted then
+			sound.set_group_gain("SFX",0)
+		else
+			sound.set_group_gain("SFX",0.5)
+		end
+	end
 end
 
 local function is_grounded(vector3) -- checks if position has tile under
