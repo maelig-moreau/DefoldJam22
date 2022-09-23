@@ -1,6 +1,6 @@
 components {
   id: "player_control"
-  component: "/main/player/player_control_new.script"
+  component: "/main/player/player_control.script"
   position {
     x: 0.0
     y: 0.0
