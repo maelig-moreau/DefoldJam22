@@ -2,6 +2,9 @@ function init(self)
 	msg.post(".", "acquire_input_focus")
 	msg.post("/loader", "acquire_input_focus")
 	self.level = 1
+	self.inMenu = true
+	msg.post("@render:", "clear_color", { color = vmath.vector4(0.2, 0.4, 0.9, 0) } )
+	sound.play("#music")
 end
 
 function final(self)
@@ -22,27 +25,31 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("proxy_loaded") then
+		print("lol")
 		msg.post(sender, "init")
 		msg.post(sender, "enable")
 	elseif message_id == hash("next_level") then
+		local node = gui.get_node("start")
+		gui.animate(node, "rotation.z", 0, gui.EASING_INOUTELASTIC, 0.2,0,anim_end)
+		gui.animate(node, "scale", vmath.vector3(1,1,1), gui.EASING_INOUTELASTIC, 0.2)
+		gui.set_text(gui.get_node("text"), "NEXT")
 		msg.post("loader#level"..self.level, "unload")
 		self.level = self.level + 1
+		self.inMenu = true
 	elseif message_if == hash("proxy_unloaded") then
-		msg.post("loader#level"..self.level, "load")
+		print("unloaded")
+		--msg.post("#level"..self.level, "load")
 	end
 end
 
 function on_input(self, action_id, action)
-	if action_id == hash("lclick") or action_id == hash("start") then
+	if action_id == hash("lclick") or action_id == hash("start") or action_id == hash("jump") then
 		local node = gui.get_node("start")
-		msg.post("loader#level"..self.level, "load")
+		if self.inMenu then
+			msg.post("loader#level"..self.level, "load")
+			self.inMenu = false
+		end
 		gui.animate(node, "rotation.z", 360, gui.EASING_INOUTELASTIC, 0.2,0,anim_end)
 		gui.animate(node, "scale", vmath.vector3(0,0,0), gui.EASING_INOUTELASTIC, 0.2)
 	end
-end
-
-function on_reload(self)
-	-- Add reload-handling code here
-	-- Learn more: https://defold.com/manuals/hot-reload/
-	-- Remove this function if not needed
 end

@@ -40,7 +40,7 @@ function on_message(self, message_id, message, sender)
 	elseif message_id == hash("dead_mob") then
 		mobCount = mobCount - 1
 		if mobCount <= 0 then
-			msg.post("main_menu:/GUI#main_menu", "next_level")
+			msg.post("main_menu:/loader#main_menu", "next_level")
 		end
 	end
 end

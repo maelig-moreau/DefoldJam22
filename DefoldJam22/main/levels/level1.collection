@@ -59,148 +59,10 @@ instances {
     z: 1.0
   }
 }
-scale_along_z: 0
-embedded_instances {
+instances {
   id: "player"
+  prototype: "/main/player/player.go"
   children: "weapon"
-  data: "components {\n"
-  "  id: \"player_control\"\n"
-  "  component: \"/main/player/player_control.script\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "  property_decls {\n"
-  "  }\n"
-  "}\n"
-  "components {\n"
-  "  id: \"player_weapons\"\n"
-  "  component: \"/main/player/player_weapons.script\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "  property_decls {\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"rivemodel\"\n"
-  "  type: \"rivemodel\"\n"
-  "  data: \"scene: \\\"/main/player/player_character.rivescene\\\"\\n"
-  "default_animation: \\\"idle\\\"\\n"
-  "material: \\\"/defold-rive/assets/rivemodel.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "default_state_machine: \\\"\\\"\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 200.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"rocket\"\n"
-  "  type: \"factory\"\n"
-  "  data: \"prototype: \\\"/main/player/rocket.go\\\"\\n"
-  "load_dynamically: false\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"pew\"\n"
-  "  type: \"factory\"\n"
-  "  data: \"prototype: \\\"/main/player/pew.go\\\"\\n"
-  "load_dynamically: false\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"pewpew_shoot\"\n"
-  "  type: \"sound\"\n"
-  "  data: \"sound: \\\"/feedbacks/sounds/pew_shoot.wav\\\"\\n"
-  "looping: 0\\n"
-  "group: \\\"SFX\\\"\\n"
-  "gain: 1.0\\n"
-  "pan: 0.0\\n"
-  "speed: 1.0\\n"
-  "loopcount: 0\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"rocket_shoot\"\n"
-  "  type: \"sound\"\n"
-  "  data: \"sound: \\\"/feedbacks/sounds/rocket_shoot.wav\\\"\\n"
-  "looping: 0\\n"
-  "group: \\\"SFX\\\"\\n"
-  "gain: 1.0\\n"
-  "pan: 0.0\\n"
-  "speed: 1.0\\n"
-  "loopcount: 0\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  ""
   position {
     x: 0.0
     y: 0.0
@@ -218,6 +80,7 @@ embedded_instances {
     z: 1.0
   }
 }
+scale_along_z: 0
 embedded_instances {
   id: "anticipator"
   data: "embedded_components {\n"
@@ -319,46 +182,6 @@ embedded_instances {
   scale3 {
     x: 2.0
     y: 2.0
-    z: 1.0
-  }
-}
-embedded_instances {
-  id: "weapon"
-  data: "embedded_components {\n"
-  "  id: \"sprite\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/main/player/weapons.atlas\\\"\\n"
-  "default_animation: \\\"none\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  ""
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 3.0
-    y: 3.0
     z: 1.0
   }
 }
@@ -478,17 +301,14 @@ embedded_instances {
   }
 }
 embedded_instances {
-  id: "music"
+  id: "weapon"
   data: "embedded_components {\n"
-  "  id: \"main_theme\"\n"
-  "  type: \"sound\"\n"
-  "  data: \"sound: \\\"/feedbacks/sounds/main theme.wav\\\"\\n"
-  "looping: 1\\n"
-  "group: \\\"music\\\"\\n"
-  "gain: 1.0\\n"
-  "pan: 0.0\\n"
-  "speed: 1.0\\n"
-  "loopcount: 0\\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/main/player/weapons.atlas\\\"\\n"
+  "default_animation: \\\"pewpew\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
   "\"\n"
   "  position {\n"
   "    x: 0.0\n"
@@ -515,8 +335,8 @@ embedded_instances {
     w: 1.0
   }
   scale3 {
-    x: 1.0
-    y: 1.0
+    x: 3.0
+    y: 3.0
     z: 1.0
   }
 }

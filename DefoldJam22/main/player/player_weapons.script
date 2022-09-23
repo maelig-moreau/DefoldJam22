@@ -44,7 +44,7 @@ function on_input(self, action_id, action)
 		self.weapon = self.weapon + 1
 		if self.weapon > 3 then self.weapon = 1 end
 		sprite.play_flipbook("/weapon", self.weapons[self.weapon].skin)
-	elseif action_id == hash("shoot") and ((action.pressed and self.weapon>1) or (self.weapon == 1)) and self.shootCD == 0 then
+	elseif action_id == hash("shoot") and ((action.pressed and self.weapon > 1) or (self.weapon == 1)) and self.shootCD == 0 then
 		local pos = go.get_position()
 		pos.y = pos.y + 50
 		self.shootCD = self.shootRate

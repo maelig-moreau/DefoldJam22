@@ -12,7 +12,6 @@ end
 
 function update(self, dt)
 	local pos = go.get_position()
-	--if pos.x > 9999 or pos.x < 0 or pos.y > 9999 or pos.y < 0 then go.delete() end
 	pos.x = pos.x + self.dir.x * self.speed
 	pos.y = pos.y + self.dir.y * self.speed
 	go.set_position(pos)
