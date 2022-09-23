@@ -103,13 +103,28 @@ local function move_fairy(self,target)
 	--	h = 1
 	--end
 	local vectorK = vmath.vector3(0, 1, 0)
-		if is_walled(pos+vectorK, height).top == true and (self.lilHoping == 2 or self.RunHoping == 2 or self.neutralHoping == true) then 
+	local verticalBlocked = false
+	if is_walled(pos+vectorK, height).top == true and (self.lilHoping == 2 or self.RunHoping == 2 or self.neutralHoping == true) then 
 		print("ping")
 		self.fairy.y = pos.y 
 		self.lilHoping = 0
 		self.runHoping = 0
 		self.neutralHoping = false
+		verticalBlocked = true
+	end
+	if self.lilHoping == 2 or self.runHoping == 2 then
+		if self.facingRight == true then
+			vectorK.x = 1
+		else
+			vectorK.x = -1
 		end
+		if is_walled(pos+vectorK, height).top == true and verticalBlocked == false then
+			self.fairy.y = pos.y 
+			self.lilHoping = 0
+			self.runHoping = 0
+			self.neutralHoping = false
+		end
+	end
 
 	--if is_walled(pos-vectorJ, nil).left and self.fairy.x < pos.x then self.fairy.x = pos.x+vectorJ.x end --on va voir
 	--if is_walled(pos+displace, nil).right and self.fairy.x > pos.x then self.fairy.x = pos.x-vectorJ.x end
