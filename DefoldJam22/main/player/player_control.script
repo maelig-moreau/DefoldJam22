@@ -151,7 +151,7 @@ function check_hands(self, special)
 					if is_walled(pPos+vectorI, 2).right == false and is_walled(pPos+vectorI, 1).top == false then
 						self.hanging = true
 						--print("ping")
-						--move_fairy(self, pPos)
+						move_fairy(self, pPos)
 					end
 				elseif self.lilHoping == 0 and self.lilFailsafe == false then
 					vectorI.y = vectorI.y +1
@@ -159,7 +159,6 @@ function check_hands(self, special)
 						vectorI.y = vectorI.y +1
 						if is_walled(pPos+vectorI, 2).right == false and is_walled(pPos+vectorI, 1).top == false then
 							self.hanging = true
-							print("ping")
 							vectorI.y = vectorI.y -2
 							local target = pPos + vectorI
 							move_fairy(self, target)
@@ -172,9 +171,9 @@ function check_hands(self, special)
 					if is_walled(pPos+vectorI, 2).left == false and is_walled(pPos+vectorI, 1).top == false then
 						self.hanging = true
 						--print("ping")
-						--move_fairy(self, pPos)
+						move_fairy(self, pPos)
 					end
-				elseif self.lilHoping == 0 then
+				elseif self.lilHoping == 0 and self.lilFailsafe == false then
 					vectorI.y = vectorI.y +1
 					if is_walled(pPos+vectorI, 1).left == true and is_walled(pPos+vectorI, 1).top == false then
 						vectorI.y = vectorI.y +1
@@ -182,7 +181,6 @@ function check_hands(self, special)
 							self.hanging = true
 							vectorI.y = vectorI.y -2
 							local target = pPos + vectorI
-							print("ping")
 							move_fairy(self, target)
 						end
 					end
@@ -230,7 +228,7 @@ function update(self, dt)
 	--print(grounded)
 	--print("LH =",self.lilHoping,"RH=",self.runHoping, "SM", self.moving, "SH", self.hanging)--, "LFS", self.lilFailsafe)
 	--print("NH =", self.neutralHoping)
-	print("hanging", self.hanging, "climbing", self.climbing, "fairy", self.fairy, pPos)
+	--print("hanging", self.hanging, "climbing", self.climbing, "fairy", self.fairy, pPos)
 	--print(pPos)
 	--print("playerpos =", pPos, "fairypos=", self.fairy)
 	local anticipatedFall = vmath.vector3(pPos.x, pPos.y+self.momentum.y-1, 0) 
@@ -425,7 +423,6 @@ function on_input(self, action_id, action)
 			target.y = pPos.y+1
 			self.climbing = true
 			self.hanging = false
-			--move_fairy(self, target)
 		end
 	end
 	if action_id == hash("down") and action.value > DEADZONE_SIZE then
