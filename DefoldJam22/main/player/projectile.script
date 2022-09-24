@@ -1,5 +1,6 @@
 go.property("speed", 4)
-
+go.property("damage", 1)
+go.property("score", 200)
 function init(self)
 	self.dir = vmath.vector3()
 end
@@ -27,6 +28,10 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash("collision_response") then
 		particlefx.play("#explosion")
 		sound.play("#explode")
+		if message.other_group == hash("enemy") then
+			msg.post("/score_manager", "gain_score",{amount=self.score,pos=go.get_position()})
+			msg.post(message.other_id, "damage",{damage=self.damage})
+		end
 		go.delete()
 	elseif message_id == hash("init") then
 		self.dir = message.dir

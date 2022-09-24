@@ -72,7 +72,7 @@ gamepad_trigger {
 }
 gamepad_trigger {
   input: GAMEPAD_LSHOULDER
-  action: "lb"
+  action: "wpn_switch"
 }
 gamepad_trigger {
   input: GAMEPAD_RSHOULDER
@@ -92,7 +92,7 @@ gamepad_trigger {
 }
 gamepad_trigger {
   input: GAMEPAD_RPAD_RIGHT
-  action: "esc"
+  action: "b"
 }
 gamepad_trigger {
   input: GAMEPAD_START

@@ -46,13 +46,7 @@ function init(self)
 end
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash("sound_params") then
-		if message.muted then
-			sound.set_group_gain("SFX",0)
-		else
-			sound.set_group_gain("SFX",0.5)
-		end
-	end
+	
 end
 
 local function is_grounded(vector3) -- checks if position has tile under

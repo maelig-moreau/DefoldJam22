@@ -1,6 +1,19 @@
+go.property("verticalMove", false)
+go.property("amplitude", 0)
+
 function init(self)
 	self.feedbackCD = 0
+	self.hp = 5
 	msg.post("/score_manager", "add_mob")
+	local property = "position.x"
+	if self.verticalMove then 
+		go.animate(go.get_id(), "position.y" ,go.PLAYBACK_LOOP_PINGPONG,go.get_position().y + self.amplitude,
+		go.EASING_OUTQUAD,self.amplitude/5)
+	else
+		go.animate(go.get_id(), "position.x" ,go.PLAYBACK_LOOP_PINGPONG,go.get_position().x + self.amplitude,
+		go.EASING_OUTQUAD,self.amplitude/5)
+	end
+	
 end
 
 function final(self)
@@ -10,7 +23,7 @@ function final(self)
 end
 
 function update(self, dt)
-	if self.feedbackCD > 0 then self.feedbackCD = self.feedbackCD - dt else self.feedbackCD = 0 end
+	
 end
 
 function fixed_update(self, dt)
@@ -21,13 +34,16 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("collision_response") then
+		print(message.other_group)
 		if message.other_group == hash("projectile") then
+			
+		end
+	elseif message_id == hash("damage") then
+		self.hp = self.hp - message.damage
+		if self.hp <= 0 then
 			msg.post("/score_manager", "dead_mob")
+			msg.post("/score_manager", "gain_score",{amount=150,pos=go.get_position()})
 			go.delete()
-			if self.feedbackCD == 0 then
-				msg.post("/score_manager", "gain_score",{amount=400,pos=go.get_position()})
-				self.feedbackCD = 0.2
-			end
 		end
 	end
 end

@@ -6,7 +6,7 @@ function init(self)
 	self.weapons = {
 		{skin=hash("pewpew"),proj="#pew",sound="#pewpew_shoot"},
 		{skin=hash("rocket_launcher"),proj="#rocket",sound="#rocket_shoot"},
-		{skin=hash("railgun"),proj="#pew",sound="#pewpew_shoot"}
+		{skin=hash("railgun"),proj="#rail",sound="#pewpew_shoot"}
 	}
 	self.aiming = vmath.vector3()
 	self.shootCD = 0

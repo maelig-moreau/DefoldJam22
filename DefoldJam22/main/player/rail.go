@@ -14,23 +14,23 @@ components {
   }
   properties {
     id: "speed"
-    value: "8.0"
+    value: "25.0"
     type: PROPERTY_TYPE_NUMBER
   }
   properties {
     id: "damage"
-    value: "5.0"
+    value: "4.0"
     type: PROPERTY_TYPE_NUMBER
   }
   properties {
     id: "score"
-    value: "800.0"
+    value: "400.0"
     type: PROPERTY_TYPE_NUMBER
   }
 }
 components {
   id: "explosion"
-  component: "/feedbacks/big_explosion.particlefx"
+  component: "/feedbacks/railgun.particlefx"
   position {
     x: 0.0
     y: 0.0
@@ -47,7 +47,7 @@ embedded_components {
   id: "sprite"
   type: "sprite"
   data: "tile_set: \"/main/player/projectiles.atlas\"\n"
-  "default_animation: \"rocket\"\n"
+  "default_animation: \"rail\"\n"
   "material: \"/builtins/materials/sprite.material\"\n"
   "blend_mode: BLEND_MODE_ALPHA\n"
   ""
@@ -96,8 +96,8 @@ embedded_components {
   "    index: 0\n"
   "    count: 3\n"
   "  }\n"
-  "  data: 100.0\n"
-  "  data: 60.0\n"
+  "  data: 96.731\n"
+  "  data: 24.742\n"
   "  data: 10.0\n"
   "}\n"
   "linear_damping: 0.0\n"
@@ -120,7 +120,7 @@ embedded_components {
 embedded_components {
   id: "explode"
   type: "sound"
-  data: "sound: \"/feedbacks/sounds/rocket_explosion.wav\"\n"
+  data: "sound: \"/feedbacks/sounds/pew_explosion.wav\"\n"
   "looping: 0\n"
   "group: \"SFX\"\n"
   "gain: 1.0\n"

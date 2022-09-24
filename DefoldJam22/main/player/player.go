@@ -28,21 +28,6 @@ components {
     w: 1.0
   }
 }
-components {
-  id: "timer"
-  component: "/menu/timer.gui"
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-}
 embedded_components {
   id: "rivemodel"
   type: "rivemodel"
@@ -156,6 +141,24 @@ embedded_components {
   "pan: 0.0\n"
   "speed: 1.0\n"
   "loopcount: 0\n"
+  ""
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+}
+embedded_components {
+  id: "rail"
+  type: "factory"
+  data: "prototype: \"/main/player/rail.go\"\n"
+  "load_dynamically: false\n"
   ""
   position {
     x: 0.0

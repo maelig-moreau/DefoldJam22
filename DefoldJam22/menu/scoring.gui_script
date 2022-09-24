@@ -1,0 +1,65 @@
+function init(self)
+	self.time = 0
+	self.timeNode = gui.get_node(("time"))
+	self.scoreNode = gui.get_node(("score"))
+	self.styleNode = gui.get_node(("style"))
+	self.displayedSCore = 0
+	playerScore = 0
+end
+
+function final(self)
+	
+end
+
+function update(self, dt)
+	if self.displayedSCore < playerScore then 
+		self.displayedSCore = self.displayedSCore+10
+		gui.set_text(self.scoreNode, ""..self.displayedSCore)
+	end
+	self.time = self.time + dt
+	local rounded = math.floor(self.time*1000)/1000
+	gui.set_text(self.timeNode, rounded.."")
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("display") then
+		gui.set_enabled(self.timeNode, message.enabled)
+		gui.set_enabled(self.scoreNode, message.enabled)
+		gui.set_enabled(self.styleNode, message.enabled)
+		msg.post("main_menu:/loader#main_menu", "display_time",{time=math.floor(self.time*1000)/1000})
+	elseif message_id == hash("style") then
+		if message.increase then
+			gui.set_text(self.styleNode, "WOW!! "..message.style)
+			local factor = 1+message.style/10
+			gui.set_scale(self.styleNode, vmath.vector3(factor*0.5,factor*0.5,1))
+			gui.set_rotation(self.styleNode, vmath.quat(0, 0, 0, 0))
+			gui.animate(self.styleNode, "scale", vmath.vector3(factor,factor,1), gui.EASING_OUTQUAD, 0.4,0,gui.PLAYBACK_ONCE_PINGPONG)
+			gui.animate(self.styleNode, "rotation.z", 30, gui.EASING_OUTQUAD, 0.1,0,nil,gui.PLAYBACK_ONCE_PINGPONG)
+		
+		else
+			gui.set_text(self.styleNode, "STYLE : "..message.style)
+			local factor = 1+message.style/10
+			gui.set_scale(self.styleNode, vmath.vector3(factor*0.2,factor*0.2,1))
+		end
+	elseif message_id == hash("reset") then
+		self.time = 0
+	end
+end
+
+function on_input(self, action_id, action)
+	-- Add input-handling code here. The game object this script is attached to
+	-- must have acquired input focus:
+	--
+	--    msg.post(".", "acquire_input_focus")
+	--
+	-- All mapped input bindings will be received. Mouse and touch input will
+	-- be received regardless of where on the screen it happened.
+	-- Learn more: https://defold.com/manuals/input/
+	-- Remove this function if not needed
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end
