@@ -1,8 +1,5 @@
 --Main tasks :
---get up from hanging
 --fix falling momentum making hangling displaced
-
---new bug : maintaining up permits a weird hanging method
 
 --secondary tasks :
 --Obliger l'élan avant un saut ?
@@ -285,7 +282,7 @@ function update(self, dt)
 			end
 			if self.facingRight == true then
 				if self.climbing == true then
-					local target = vmath.vector3(1,0,0)
+					local target = vmath.vector3(1,2,0)
 					target = pPos + target
 					move_fairy(self, target)
 				end
@@ -308,7 +305,7 @@ function update(self, dt)
 				end
 			elseif self.facingRight == false then
 				if self.climbing == true then
-					local target = vmath.vector3(-1,0,0)
+					local target = vmath.vector3(-1,2,0)
 					target = pPos + target
 					move_fairy(self, target)
 				end
@@ -425,10 +422,10 @@ function on_input(self, action_id, action)
 			self.neutralHoping = true
 			move_fairy(self, target)
 		elseif self.hanging == true and self.moving == false and is_grounded(real_to_grid(go.get_position())) == false then
-			target.y = pPos.y+2
+			target.y = pPos.y+1
 			self.climbing = true
 			self.hanging = false
-			move_fairy(self, target)
+			--move_fairy(self, target)
 		end
 	end
 	if action_id == hash("down") and action.value > DEADZONE_SIZE then
