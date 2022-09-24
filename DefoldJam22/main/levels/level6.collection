@@ -3,8 +3,8 @@ instances {
   id: "dummy_bot"
   prototype: "/main/entities/dummy_bot.go"
   position {
-    x: 460.0
-    y: 138.0
+    x: 70.0
+    y: 91.0
     z: 0.0
   }
   rotation {
@@ -23,8 +23,8 @@ instances {
   id: "dummy_bot1"
   prototype: "/main/entities/dummy_bot.go"
   position {
-    x: 918.0
-    y: -178.0
+    x: 547.0
+    y: 381.0
     z: 0.0
   }
   rotation {
@@ -32,14 +32,6 @@ instances {
     y: 0.0
     z: 0.0
     w: 1.0
-  }
-  component_properties {
-    id: "dummy_bot"
-    properties {
-      id: "amplitude"
-      value: "300.0"
-      type: PROPERTY_TYPE_NUMBER
-    }
   }
   scale3 {
     x: 1.0
@@ -51,8 +43,8 @@ instances {
   id: "dummy_bot2"
   prototype: "/main/entities/dummy_bot.go"
   position {
-    x: 1465.0
-    y: -186.0
+    x: -378.0
+    y: 552.0
     z: 0.0
   }
   rotation {
@@ -60,19 +52,6 @@ instances {
     y: 0.0
     z: 0.0
     w: 1.0
-  }
-  component_properties {
-    id: "dummy_bot"
-    properties {
-      id: "verticalMove"
-      value: "true"
-      type: PROPERTY_TYPE_BOOLEAN
-    }
-    properties {
-      id: "amplitude"
-      value: "400.0"
-      type: PROPERTY_TYPE_NUMBER
-    }
   }
   scale3 {
     x: 1.0
@@ -85,8 +64,8 @@ instances {
   prototype: "/main/player/player.go"
   children: "weapon"
   position {
-    x: 0.0
-    y: 0.0
+    x: -288.0
+    y: -77.0
     z: 0.0
   }
   rotation {
@@ -102,11 +81,11 @@ instances {
   }
 }
 instances {
-  id: "scientist"
-  prototype: "/main/set/scientist.go"
+  id: "dummy_bot3"
+  prototype: "/main/entities/dummy_bot.go"
   position {
-    x: 405.0
-    y: -50.0
+    x: 517.0
+    y: 194.0
     z: 0.0
   }
   rotation {
@@ -125,8 +104,8 @@ instances {
   id: "scientist1"
   prototype: "/main/set/scientist.go"
   position {
-    x: 458.0
-    y: -50.0
+    x: 316.0
+    y: -100.0
     z: 0.0
   }
   rotation {
@@ -142,11 +121,11 @@ instances {
   }
 }
 instances {
-  id: "dummy_bot3"
-  prototype: "/main/entities/dummy_bot.go"
+  id: "scientist2"
+  prototype: "/main/set/scientist.go"
   position {
-    x: 1295.0
-    y: 221.0
+    x: 361.0
+    y: -100.0
     z: 0.0
   }
   rotation {
@@ -155,18 +134,65 @@ instances {
     z: 0.0
     w: 1.0
   }
-  component_properties {
-    id: "dummy_bot"
-    properties {
-      id: "verticalMove"
-      value: "true"
-      type: PROPERTY_TYPE_BOOLEAN
-    }
-    properties {
-      id: "amplitude"
-      value: "200.0"
-      type: PROPERTY_TYPE_NUMBER
-    }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "scientist3"
+  prototype: "/main/set/scientist.go"
+  position {
+    x: 283.0
+    y: 200.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "scientist4"
+  prototype: "/main/set/scientist.go"
+  position {
+    x: 241.0
+    y: 200.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "scientist5"
+  prototype: "/main/set/scientist.go"
+  position {
+    x: -11.0
+    y: 200.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
   }
   scale3 {
     x: 1.0
@@ -219,7 +245,7 @@ embedded_instances {
   id: "terrain"
   data: "components {\n"
   "  id: \"terrain\"\n"
-  "  component: \"/main/levels/level5.tilemap\"\n"
+  "  component: \"/main/levels/level6.tilemap\"\n"
   "  position {\n"
   "    x: 0.0\n"
   "    y: 0.0\n"
@@ -237,7 +263,7 @@ embedded_instances {
   "embedded_components {\n"
   "  id: \"collisionobject\"\n"
   "  type: \"collisionobject\"\n"
-  "  data: \"collision_shape: \\\"/main/levels/level5.tilemap\\\"\\n"
+  "  data: \"collision_shape: \\\"/main/levels/level6.tilemap\\\"\\n"
   "type: COLLISION_OBJECT_TYPE_STATIC\\n"
   "mass: 0.0\\n"
   "friction: 0.1\\n"

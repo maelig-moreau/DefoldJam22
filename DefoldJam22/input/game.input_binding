@@ -38,6 +38,10 @@ key_trigger {
   input: KEY_ENTER
   action: "enter"
 }
+key_trigger {
+  input: KEY_M
+  action: "mute"
+}
 mouse_trigger {
   input: MOUSE_BUTTON_1
   action: "lclick"
@@ -68,7 +72,7 @@ gamepad_trigger {
 }
 gamepad_trigger {
   input: GAMEPAD_LSHOULDER
-  action: "lb"
+  action: "wpn_switch"
 }
 gamepad_trigger {
   input: GAMEPAD_RSHOULDER
@@ -88,7 +92,7 @@ gamepad_trigger {
 }
 gamepad_trigger {
   input: GAMEPAD_RPAD_RIGHT
-  action: "esc"
+  action: "b"
 }
 gamepad_trigger {
   input: GAMEPAD_START
