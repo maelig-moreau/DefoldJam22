@@ -1,4 +1,4 @@
---Main tasks : ???
+---Main tasks : ???
 local function grid_to_real(vector3)
 	local newvect = vmath.vector3(0,0,0)
 	newvect.x = vector3.x * CELL_SIDE
