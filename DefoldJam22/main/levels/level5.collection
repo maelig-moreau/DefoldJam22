@@ -3,8 +3,8 @@ instances {
   id: "dummy_bot"
   prototype: "/main/entities/dummy_bot.go"
   position {
-    x: 690.0
-    y: 67.0
+    x: 460.0
+    y: 138.0
     z: 0.0
   }
   rotation {
@@ -37,7 +37,7 @@ instances {
     id: "dummy_bot"
     properties {
       id: "amplitude"
-      value: "500.0"
+      value: "300.0"
       type: PROPERTY_TYPE_NUMBER
     }
   }

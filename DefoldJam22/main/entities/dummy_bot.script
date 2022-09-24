@@ -8,10 +8,10 @@ function init(self)
 	local property = "position.x"
 	if self.verticalMove then 
 		go.animate(go.get_id(), "position.y" ,go.PLAYBACK_LOOP_PINGPONG,go.get_position().y + self.amplitude,
-		go.EASING_OUTQUAD,self.amplitude/5)
+		go.EASING_OUTQUAD,self.amplitude/20)
 	else
 		go.animate(go.get_id(), "position.x" ,go.PLAYBACK_LOOP_PINGPONG,go.get_position().x + self.amplitude,
-		go.EASING_OUTQUAD,self.amplitude/5)
+		go.EASING_OUTQUAD,self.amplitude/20)
 	end
 	
 end
