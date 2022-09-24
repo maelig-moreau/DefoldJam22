@@ -620,6 +620,46 @@ layers {
     rotate90: 0
   }
   cell {
+    x: 1
+    y: -20
+    tile: 0
+    h_flip: 0
+    v_flip: 0
+    rotate90: 0
+  }
+  cell {
+    x: 2
+    y: -20
+    tile: 0
+    h_flip: 0
+    v_flip: 0
+    rotate90: 0
+  }
+  cell {
+    x: 3
+    y: -20
+    tile: 0
+    h_flip: 0
+    v_flip: 0
+    rotate90: 0
+  }
+  cell {
+    x: 4
+    y: -20
+    tile: 0
+    h_flip: 0
+    v_flip: 0
+    rotate90: 0
+  }
+  cell {
+    x: 5
+    y: -20
+    tile: 0
+    h_flip: 0
+    v_flip: 0
+    rotate90: 0
+  }
+  cell {
     x: 19
     y: -20
     tile: 0

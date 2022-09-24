@@ -3,8 +3,8 @@ instances {
   id: "dummy_bot"
   prototype: "/main/entities/dummy_bot.go"
   position {
-    x: 70.0
-    y: 91.0
+    x: 146.0
+    y: 13.0
     z: 0.0
   }
   rotation {
@@ -12,6 +12,19 @@ instances {
     y: 0.0
     z: 0.0
     w: 1.0
+  }
+  component_properties {
+    id: "dummy_bot"
+    properties {
+      id: "verticalMove"
+      value: "true"
+      type: PROPERTY_TYPE_BOOLEAN
+    }
+    properties {
+      id: "amplitude"
+      value: "500.0"
+      type: PROPERTY_TYPE_NUMBER
+    }
   }
   scale3 {
     x: 1.0
@@ -23,8 +36,8 @@ instances {
   id: "dummy_bot1"
   prototype: "/main/entities/dummy_bot.go"
   position {
-    x: 547.0
-    y: 381.0
+    x: 549.0
+    y: 394.0
     z: 0.0
   }
   rotation {
@@ -84,8 +97,8 @@ instances {
   id: "dummy_bot3"
   prototype: "/main/entities/dummy_bot.go"
   position {
-    x: 517.0
-    y: 194.0
+    x: -227.0
+    y: 448.0
     z: 0.0
   }
   rotation {
@@ -93,6 +106,14 @@ instances {
     y: 0.0
     z: 0.0
     w: 1.0
+  }
+  component_properties {
+    id: "dummy_bot"
+    properties {
+      id: "amplitude"
+      value: "1000.0"
+      type: PROPERTY_TYPE_NUMBER
+    }
   }
   scale3 {
     x: 1.0
@@ -105,7 +126,7 @@ instances {
   prototype: "/main/set/scientist.go"
   position {
     x: 316.0
-    y: -100.0
+    y: -50.0
     z: 0.0
   }
   rotation {
@@ -125,7 +146,7 @@ instances {
   prototype: "/main/set/scientist.go"
   position {
     x: 361.0
-    y: -100.0
+    y: -50.0
     z: 0.0
   }
   rotation {
@@ -201,46 +222,6 @@ instances {
   }
 }
 scale_along_z: 0
-embedded_instances {
-  id: "anticipator"
-  data: "embedded_components {\n"
-  "  id: \"sprite\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/builtins/graphics/particle_blob.tilesource\\\"\\n"
-  "default_animation: \\\"anim\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 50.0\n"
-  "    y: 25.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  ""
-  position {
-    x: 50.0
-    y: 50.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
 embedded_instances {
   id: "terrain"
   data: "components {\n"
